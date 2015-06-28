@@ -11,8 +11,8 @@ module.exports = {
 		callbackURL: 'http://localhost:3000/auth/facebook/callback'
 	},
 	google: {
-		clientID: process.env.GOOGLE_ID || '318994911271-dtbdtj2on01ot8ii3ub2jknsmshr36k6.apps.googleusercontent.com',
-		clientSecret: process.env.GOOGLE_SECRET || 'GIJ0NDDfkaCItyu4KM911rMn',
+		clientID: process.env.GOOGLE_ID || 'APP_ID',
+		clientSecret: process.env.GOOGLE_SECRET || 'APP_SECRET',
 		callbackURL: 'http://localhost:3000/auth/google/callback'
 	},
 	github: {
