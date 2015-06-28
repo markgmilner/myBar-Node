@@ -24,7 +24,20 @@ module.exports = function(app) {
 	app.route('/auth/signup').post(users.signup);
 	app.route('/auth/signin').post(users.signin);
 	app.route('/auth/signout').get(users.signout);
-
+      
+	// Setting the soundcloud oauth routes
+	app.route('/auth/soundcloud').get(passport.authenticate('soundcloud', { }));
+	app.route('/auth/soundcloud/callback').get(users.oauthCallback('soundcloud'));
+     
+	// Setting the spotify oauth routes
+	app.route('/auth/spotify').get(passport.authenticate('spotify', {
+		scope: [
+			'user-read-private',
+			'playlist-read-private'
+		]
+	}));
+	app.route('/auth/spotify/callback').get(users.oauthCallback('spotify'));
+      
 	// Setting the facebook oauth routes
 	app.route('/auth/facebook').get(passport.authenticate('facebook', {
 		scope: ['email']

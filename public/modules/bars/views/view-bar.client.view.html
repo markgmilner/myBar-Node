@@ -1,0 +1,166 @@
+<section data-ng-controller="BarsController" data-ng-init="findOne()">
+	<div class="row">
+        <div class="col-md-1">
+
+            <a href="/#!/viewBar/{{bar.name}}">
+                <img alt="{{bar.name}}" class="photo-box-img" height="90" ng-src="/uploads/{{bar.id}}/{{bar.thumb}}" width="90">
+            </a>
+        </div>
+        <div class="col-md-6">
+            <span class="h2">{{bar.name}}</span><rating ng-model="rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
+            <br>
+            <address class="titlecaps">
+                <strong><a href="#" class="titlecaps">{{bar.neighborhood}}</a></strong>
+                {{bar.street}} <br>
+                {{bar.city}}, {{bar.state}} {{bar.zip}}
+            </address>
+
+            <div class="pull-right" ng-show="admin>0">
+                <button class="btn btn-warning" ng-click="editBar(bar)">EDIT</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class='table'>
+                <tr>
+                    <td class="col-md-2">
+                        <h5>Website:</h5>
+                        <span>{{bar.website}}</span>
+                        <h5>Phone Number:</h5>
+                        <span>{{bar.phonenum}}</span>
+                        <h5>Happy Hour Deal:  {{bar.price}}</h5>
+
+                        <div class='bar-deal' id="bardeal" ng-class="{bardealsho: showmore}">{{bar.deal}}</div>
+                        <a ng-hide="showmore || !showmorelink" ng-click="showmore = true">more...</a>
+                        <a ng-show="showmore && showmorelink" ng-click="showmore = false">less...</a>
+                    </td>
+                    <td class="col-md-2">
+                        <h5>Atmosphere:</h5>
+                        <span ng-repeat="atmo in bar.atmosphere"><a href='#' class="titlecaps">{{atmo}}</a><span ng-hide="$last">, </span></span>
+
+                        <h5>Bar Type:</h5>
+                        <span ng-repeat="ty in bar.type"><a href='#' class="titlecaps">{{ty}}</a><span ng-hide="$last">, </span></span>
+                    </td>
+                    <td class="col-md-2">
+                        <h5 class="wifi">WIFI: </h5> <span ng-show="bar.wifi">Yes</span><span ng-hide="bar.wifi">No</span> <br>
+                        <h5 class="wifi">TV: </h5> <span ng-show="bar.tv">Yes</span><span ng-hide="bar.tv">No</span>	<br>
+                        <h5 class="wifi">Outside: </h5> <span ng-show="bar.outdoor">Yes</span><span ng-hide="bar.outdoor">No</span>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Hours</th>
+                        <th>Happy Hour</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday <span ng-show="bar.monday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.monday.isClosed">{{bar.monday.open| date:'h:mm a'}} - {{bar.monday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.monday.isClosed">Closed</td>
+                        <td ng-hide="bar.monday.noHH" ng-repeat="hh in bar.monday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.monday.noHH">No Happy Hour on monday</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday <span ng-show="bar.tuesday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.tuesday.isClosed">{{bar.tuesday.open| date:'h:mm a'}} - {{bar.tuesday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.tuesday.isClosed">Closed</td>
+                        <td ng-hide="bar.tuesday.noHH" ng-repeat="hh in bar.tuesday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.tuesday.noHH">No Happy Hour on tuesday</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday <span ng-show="bar.wednesday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.wednesday.isClosed">{{bar.wednesday.open| date:'h:mm a'}} - {{bar.wednesday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.wednesday.isClosed">Closed</td>
+                        <td ng-hide="bar.wednesday.noHH" ng-repeat="hh in bar.wednesday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.wednesday.noHH">No Happy Hour on wednesday</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday <span ng-show="bar.thursday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.thursday.isClosed">{{bar.thursday.open| date:'h:mm a'}} - {{bar.thursday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.thursday.isClosed">Closed</td>
+                        <td ng-hide="bar.thursday.noHH" ng-repeat="hh in bar.thursday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.thursday.noHH">No Happy Hour on thursday</td>
+                    </tr>
+                    <tr>
+                        <td>Friday <span ng-show="bar.friday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.friday.isClosed">{{bar.friday.open| date:'h:mm a'}} - {{bar.friday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.friday.isClosed">Closed</td>
+                        <td ng-hide="bar.friday.noHH" ng-repeat="hh in bar.friday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.friday.noHH">No Happy Hour on friday</td>
+                    </tr>
+                    <tr>
+                        <td>Saturday <span ng-show="bar.saturday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.saturday.isClosed">{{bar.saturday.open| date:'h:mm a'}} - {{bar.saturday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.saturday.isClosed">Closed</td>
+                        <td ng-hide="bar.saturday.noHH" ng-repeat="hh in bar.saturday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.saturday.noHH">No Happy Hour on saturday</td>
+                    </tr>
+                    <tr>
+                        <td>Sunday <span ng-show="bar.sunday.best"><img src="/img/martini.png" height="20px"></span></td>
+                        <td ng-hide="bar.sunday.isClosed">{{bar.sunday.open| date:'h:mm a'}} - {{bar.sunday.close| date:'h:mm a'}}</td>
+                        <td ng-show="bar.sunday.isClosed">Closed</td>
+                        <td ng-hide="bar.sunday.noHH" ng-repeat="hh in bar.sunday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-show="bar.sunday.noHH">No Happy Hour on sunday</td>
+                    </tr>
+                </tbody>
+            </table>
+            <span style="float:right;"><img src="/img/martini.png" height="20px"> Popular Night</span>
+        </div>
+        <!--<div class="col-md-6 viewbar-map" ng-hide="testsys">
+                <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+        </div>-->
+        <div class="col-md-6 angular-google-map-container" ng-show="testsys">
+            <img src="" height="400px" width="400px" alt="This Will be the map...One day">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7" style="border-right: 2px solid #dddddd">
+            <h3>Reviews: </h3>
+            <form class="add-review" name="newReview" ng-submit="newReview.$valid && addReview()" ng-show="authenticated" novalidate>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Rating: </label>
+                            <rating ng-model="newReviews.rating" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" state-on="'beerfull'" state-off="'beerempty'"></rating>
+                        </div>
+                        <div class="form-group">
+                            <label for="newReviews.comment">Review: </label>
+                            <textarea rows="4" class="form-control" id="newReviews.comment" ng-model="newReviews.comment" placeholder="Enter comment..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Add Review</button>
+                    </div>
+                </div>
+                <br>
+            </form>
+            <br>
+            <ul class="review-list" ng-hide="noReviews">
+                <li class="review-list-item" dir-paginate="review in bar.reviews | orderBy: 'timestamp':true | itemsPerPage: pageSize" current-page="currentPage">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{review.user}}
+                        </div>
+                        <div class="col-md-9">
+                            <rating ng-model="review.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
+                            {{review.timestamp| date:'short'}}
+                            <br>
+                            <p class='bar-deal'>{{review.comment}}</p> 
+                        </div>
+                        <div class="col-md-1" ng-show="admin>0">
+                            <button class="btn btn-danger" ng-click="removeReview($index, review.rating)" >Delete</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <h5 ng-show="noReviews">No Reviews yet! Be the first to add a review!</h5>
+            <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="/views/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
+    </div>
+</section>

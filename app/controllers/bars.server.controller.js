@@ -5,105 +5,107 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
-	Article = mongoose.model('Article'),
+	Bar = mongoose.model('Bar'),
 	_ = require('lodash');
 
 /**
- * Create a article
+ * Create a bar
  */
 exports.create = function(req, res) {
-	var article = new Article(req.body);
-	article.user = req.user;
+	var bar = new Bar(req.body);
 
-	article.save(function(err) {
+	bar.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(article);
+			res.jsonp(bar);
 		}
 	});
 };
 
 /**
- * Show the current article
+ * Show the current bar
  */
 exports.read = function(req, res) {
-	res.jsonp(req.article);
+	res.jsonp(req.bar);
 };
 
 /**
- * Update a article
+ * Update a bar
  */
 exports.update = function(req, res) {
-	var article = req.article;
+	var bar = req.bar;
 
-	article = _.extend(article, req.body);
+	bar = _.extend(bar, req.body);
 
-	article.save(function(err) {
+	bar.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(article);
+			res.jsonp(bar);
 		}
 	});
 };
 
 /**
- * Delete an article
+ * Delete an bar
  */
 exports.delete = function(req, res) {
-	var article = req.article;
+	var bar = req.bar;
 
-	article.remove(function(err) {
+	bar.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(article);
+			res.jsonp(bar);
 		}
 	});
 };
 
 /**
- * List of Articles
+ * List of Bars
  */
 exports.list = function(req, res) {
-	Article.find().sort('-created').populate('user', 'displayName').exec(function(err, articles) {
+	Bar.find().sort('-created').exec(function(err, bars) {
 		if (err) {
+            console.log('bar controller list error');
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(articles);
+			res.jsonp(bars);
 		}
 	});
 };
 
 /**
- * Article middleware
+ * Bar middleware
  */
-exports.articleByID = function(req, res, next, id) {
-	Article.findById(id).populate('user', 'displayName').exec(function(err, article) {
+exports.barByID = function(req, res, next, id) {
+	Bar.findById(id).exec(function(err, bar) {
 		if (err) return next(err);
-		if (!article) return next(new Error('Failed to load article ' + id));
-		req.article = article;
+		if (!bar) return next(new Error('Failed to load bar ' + id));
+		req.bar = bar;
 		next();
 	});
 };
 
 /**
- * Article authorization middleware
+ * Bar authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.article.user.id !== req.user.id) {
+    /* TODO will have to add multiple authorizations for owner/follower/contributor
+	if (req.bar.user.id !== req.user.id) {
 		return res.status(403).send({
 			message: 'User is not authorized'
 		});
 	}
+    */
 	next();
 };

@@ -5,7 +5,12 @@ module.exports = {
 	port: 3001,
 	app: {
 		title: 'MEAN.JS - Test Environment'
-	},
+	},   
+    spotify: {
+		clientID: '563d4d4eb0d84f09af39af3b1528b4df',
+		clientSecret: '450eeed9a773401d87808b866f433548',
+		callbackURL: 'http://localhost:3000/auth/spotify/callback'
+    },   
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
 		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',

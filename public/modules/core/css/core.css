@@ -13,3 +13,32 @@
 .ng-valid.ng-dirty{
     border-color:#78FA89;
 }
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.navbar-footer {
+    color : white;
+    font-size : 14px;
+    padding-top : 8px;
+}
+
+.navbar-footer p {
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+    margin-bottom : 0px;
+}
+
+.navbar-footer p.small {
+    font-size : 12px;
+}
+
+.navbar-footer .progress {
+    margin-bottom : 0px;
+    margin-top : 9px;
+    height : 3px;
+}
+
+.navbar-footer .play-progress {
+    height : 20px;
+}

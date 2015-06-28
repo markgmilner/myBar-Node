@@ -20,6 +20,8 @@ exports.signup = function(req, res) {
 	var user = new User(req.body);
 	var message = null;
 
+    console.log('signup in users auth controller');
+    console.log(user);
 	// Add missing user fields
 	user.provider = 'local';
 	user.displayName = user.firstName + ' ' + user.lastName;
@@ -102,6 +104,7 @@ exports.oauthCallback = function(strategy) {
  */
 exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
 	if (!req.user) {
+        console.log('no user in request');
 		// Define a search query fields
 		var searchMainProviderIdentifierField = 'providerData.' + providerUserProfile.providerIdentifierField;
 		var searchAdditionalProviderIdentifierField = 'additionalProvidersData.' + providerUserProfile.provider + '.' + providerUserProfile.providerIdentifierField;
@@ -120,6 +123,7 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
 			$or: [mainProviderSearchQuery, additionalProviderSearchQuery]
 		};
 
+        console.log(searchQuery);
 		User.findOne(searchQuery, function(err, user) {
 			if (err) {
 				return done(err);
@@ -127,6 +131,7 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
 				if (!user) {
 					var possibleUsername = providerUserProfile.username || ((providerUserProfile.email) ? providerUserProfile.email.split('@')[0] : '');
 
+                    console.log('username: ' + possibleUsername);
 					User.findUniqueUsername(possibleUsername, null, function(availableUsername) {
 						user = new User({
 							firstName: providerUserProfile.firstName,
@@ -150,6 +155,7 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
 		});
 	} else {
 		// User is already logged in, join the provider data to the existing user
+        console.log('user already logged in');
 		var user = req.user;
 
 		// Check if user exists, is not signed in using this provider, and doesn't have that provider data already configured
