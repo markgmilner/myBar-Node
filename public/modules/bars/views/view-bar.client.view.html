@@ -61,51 +61,51 @@
                 <tbody>
                     <tr>
                         <td>Monday <span ng-show="bar.monday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.monday.isClosed">{{bar.monday.open| date:'h:mm a'}} - {{bar.monday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.monday.isClosed">{{bar.monday.open| time}} - {{bar.monday.close| time}}</td>
                         <td ng-show="bar.monday.isClosed">Closed</td>
-                        <td ng-hide="bar.monday.noHH" ng-repeat="hh in bar.monday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.monday.noHH" ng-repeat="hh in bar.monday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.monday.noHH">No Happy Hour on monday</td>
                     </tr>
                     <tr>
                         <td>Tuesday <span ng-show="bar.tuesday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.tuesday.isClosed">{{bar.tuesday.open| date:'h:mm a'}} - {{bar.tuesday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.tuesday.isClosed">{{bar.tuesday.open| time}} - {{bar.tuesday.close| time}}</td>
                         <td ng-show="bar.tuesday.isClosed">Closed</td>
-                        <td ng-hide="bar.tuesday.noHH" ng-repeat="hh in bar.tuesday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.tuesday.noHH" ng-repeat="hh in bar.tuesday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.tuesday.noHH">No Happy Hour on tuesday</td>
                     </tr>
                     <tr>
                         <td>Wednesday <span ng-show="bar.wednesday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.wednesday.isClosed">{{bar.wednesday.open| date:'h:mm a'}} - {{bar.wednesday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.wednesday.isClosed">{{bar.wednesday.open| time}} - {{bar.wednesday.close| time}}</td>
                         <td ng-show="bar.wednesday.isClosed">Closed</td>
-                        <td ng-hide="bar.wednesday.noHH" ng-repeat="hh in bar.wednesday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.wednesday.noHH" ng-repeat="hh in bar.wednesday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.wednesday.noHH">No Happy Hour on wednesday</td>
                     </tr>
                     <tr>
                         <td>Thursday <span ng-show="bar.thursday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.thursday.isClosed">{{bar.thursday.open| date:'h:mm a'}} - {{bar.thursday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.thursday.isClosed">{{bar.thursday.open| time}} - {{bar.thursday.close| time}}</td>
                         <td ng-show="bar.thursday.isClosed">Closed</td>
-                        <td ng-hide="bar.thursday.noHH" ng-repeat="hh in bar.thursday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.thursday.noHH" ng-repeat="hh in bar.thursday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.thursday.noHH">No Happy Hour on thursday</td>
                     </tr>
                     <tr>
                         <td>Friday <span ng-show="bar.friday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.friday.isClosed">{{bar.friday.open| date:'h:mm a'}} - {{bar.friday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.friday.isClosed">{{bar.friday.open| time}} - {{bar.friday.close| time}}</td>
                         <td ng-show="bar.friday.isClosed">Closed</td>
-                        <td ng-hide="bar.friday.noHH" ng-repeat="hh in bar.friday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.friday.noHH" ng-repeat="hh in bar.friday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.friday.noHH">No Happy Hour on friday</td>
                     </tr>
                     <tr>
                         <td>Saturday <span ng-show="bar.saturday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.saturday.isClosed">{{bar.saturday.open| date:'h:mm a'}} - {{bar.saturday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.saturday.isClosed">{{bar.saturday.open| time}} - {{bar.saturday.close| time}}</td>
                         <td ng-show="bar.saturday.isClosed">Closed</td>
-                        <td ng-hide="bar.saturday.noHH" ng-repeat="hh in bar.saturday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.saturday.noHH" ng-repeat="hh in bar.saturday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.saturday.noHH">No Happy Hour on saturday</td>
                     </tr>
                     <tr>
                         <td>Sunday <span ng-show="bar.sunday.best"><img src="/img/martini.png" height="20px"></span></td>
-                        <td ng-hide="bar.sunday.isClosed">{{bar.sunday.open| date:'h:mm a'}} - {{bar.sunday.close| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.sunday.isClosed">{{bar.sunday.open| time}} - {{bar.sunday.close| time}}</td>
                         <td ng-show="bar.sunday.isClosed">Closed</td>
-                        <td ng-hide="bar.sunday.noHH" ng-repeat="hh in bar.sunday.happyHour">{{hh.start| date:'h:mm a'}} - {{hh.end| date:'h:mm a'}}</td>
+                        <td ng-hide="bar.sunday.noHH" ng-repeat="hh in bar.sunday.happyHour">{{hh.start| time}} - {{hh.end| time}}</td>
                         <td ng-show="bar.sunday.noHH">No Happy Hour on sunday</td>
                     </tr>
                 </tbody>

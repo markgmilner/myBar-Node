@@ -17,7 +17,7 @@ var DayDef = {
     best: Boolean,
     noHH: Boolean,
     isClosed: Boolean,
-    happyHour: [{start: String, end: String}],
+    happyHour: [{start: String, end: String, _id: false}],
     open: String,
     close: String
 };
