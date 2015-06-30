@@ -1,0 +1,109 @@
+
+
+.newBar viewBar{
+    margin:0 auto;
+}
+
+.displayBars{
+    margin:0 auto;
+}
+
+.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+.ng-valid.ng-dirty {
+    border-color: green;
+}
+
+.bar-list-item {
+    list-style-type: none;
+}
+
+.bar-list-item-container {
+    
+    height: 150px;
+}
+
+.bar-avatar {
+    position:relative;
+}
+
+.photo-box {
+    position: absolute;
+    margin-right:10px;
+}
+.media-story {
+    position: absolute;
+    left: 100px;
+    top: -15px;
+}
+.main-attributes {
+    position: relative;
+}
+.secondary-attributes{
+    position: relative;
+    margin-right: 10px;
+    left: 400px;
+    top: 5px;
+    width: 200px;
+}
+
+.wifi {
+    margin: 10px 0;
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 20px;
+    color: inherit;
+    display: inline-block;
+    text-rendering: optimizelegibility;
+}
+
+.beerfull {
+    height: 25px;
+    width: 25px;
+    background-size: contain;
+    background-image: url("/modules/bars/img/beerfull.png");
+}
+
+.beerempty {
+    height: 25px;
+    width: 25px;
+    background-size: contain;
+    background-image: url("/modules/bars/img/beerempty.png");
+}
+
+.review-list {
+	border-top: 2px solid #dddddd
+}
+
+.review-list-item {
+	border-bottom: 1px solid #dddddd;
+	list-style-type: none;
+}
+
+.angular-google-map-container { 
+	height: 400px; 
+}
+
+.bar-deal {
+    word-wrap:break-word;
+    white-space: pre-wrap;
+    line-height: 1em;
+	height: 4em;
+    overflow: hidden;
+}
+
+.titlecaps {
+	text-transform: capitalize;
+}
+
+.barpic {
+	width:95px;
+}
+
+.viewbar-map {
+	height: 100px; 
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

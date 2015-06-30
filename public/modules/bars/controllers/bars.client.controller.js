@@ -4,6 +4,7 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 	function($scope, $stateParams, $location, Authentication, Bars) {
         $scope.testsys = true;
 		$scope.authentication = Authentication;
+		$scope.max = 5;
 
 		$scope.create = function(barObj) {
 			var bar = new Bars(
