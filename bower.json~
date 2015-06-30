@@ -1,10 +1,10 @@
 {
-	"name": "meanjs",
-	"version": "0.3.2",
+	"name": "myBar",
+	"version": "0.1",
 	"description": "Fullstack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
 	"dependencies": {
 		"bootstrap": "~3",
-		"angular": "~1.2",
+		"angular": "~1",
 		"angular-resource": "~1.2",
 		"angular-animate": "~1.2",
 		"angular-mocks": "~1.2",

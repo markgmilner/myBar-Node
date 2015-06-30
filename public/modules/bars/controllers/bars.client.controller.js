@@ -2,6 +2,7 @@
 
 angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars',
 	function($scope, $stateParams, $location, Authentication, Bars) {
+        $scope.testsys = true;
 		$scope.authentication = Authentication;
 
 		$scope.create = function(barObj) {

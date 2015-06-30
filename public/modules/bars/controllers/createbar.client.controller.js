@@ -289,11 +289,9 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                     });
                     */
         };
-        /*
         $scope.testData = function() {
-            $scope.bar = {"price": "$", "name": "TestBar", "neighborhood": "TestNeighborhood", "atmosphere": "test1, test2, test3", "type": "test1, test2, test3", "street": "testStreet", "city": "testCity", "state": "testState", "zip": "testZip", "deal": "testDeal", "instagram": "testInsta"};
+            $scope.bar = {'price': '1', 'name': 'TestBar', 'neighborhood': 'TestNeighborhood', 'atmosphere': 'test1, test2, test3', 'type': 'test1, test2, test3', 'street': 'testStreet', 'city': 'testCity', 'state': 'testState', 'zip': 'testZip', 'deal': 'testDeal', 'instagram': 'testInsta'};
         };
-        */
         $scope.clear = function() {
             $scope.bar = {price: '$'};
             $scope.hideminusbar = true;
@@ -368,6 +366,5 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                     }
             );
         };
-        
 	}
 ]);
