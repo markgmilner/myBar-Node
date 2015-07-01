@@ -112,17 +112,18 @@
             </table>
             <span style="float:right;"><img src="modules/bars/img/martini.png" height="20px"> Popular Night</span>
         </div>
-        <!--<div class="col-md-6 viewbar-map" ng-hide="testsys">
-                <ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
-        </div>-->
-        <div class="col-md-6 angular-google-map-container">
-            <img src="" height="400px" width="400px" alt="This Will be the map...One day">
+        <div class="col-md-6 viewbar-map">
+                <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+                	<ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"></ui-gmap-marker>
+                </ui-gmap-google-map>
+                
         </div>
+        
     </div>
     <div class="row">
         <div class="col-md-7" style="border-right: 2px solid #dddddd">
             <h3>Reviews: </h3>
-            <form class="add-review" name="newReview" ng-submit="newReview.$valid && addReview()" ng-show="authenticated" novalidate>
+            <form class="add-review" name="newReview" ng-submit="newReview.$valid && addReview()" novalidate>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -141,7 +142,7 @@
             </form>
             <br>
             <ul class="review-list" ng-hide="noReviews">
-                <li class="review-list-item" dir-paginate="review in bar.reviews | orderBy: 'timestamp':true | itemsPerPage: pageSize" current-page="currentPage">
+                <li class="review-list-item" data-ng-repeat="review in bar.reviews | orderBy: 'timestamp':true" >
                     <br>
                     <div class="row">
                         <div class="col-md-3">
