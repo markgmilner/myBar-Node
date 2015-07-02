@@ -8,16 +8,20 @@ function BarObject() {
         thursday : {isClosed: true, noHH: true, best: false},
         friday : {isClosed: true, noHH: true, best: false},
         saturday : {isClosed: true, noHH: true, best: false},
-        sunday : {isClosed: true, noHH: true, best: false}
+        sunday : {isClosed: true, noHH: true, best: false},
+        addressLocation : {lat : 0, lng : 0}
     };
 }
 
-angular.module('bars').controller('CreateBarController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars',
-	function($scope, $stateParams, $location, Authentication, Bars) {
+angular.module('bars').controller('CreateBarController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'Maps',
+	function($scope, $stateParams, $location, Authentication, Bars, Maps) {
 		$scope.authentication = Authentication;
         $scope.bar = new BarObject();
         $scope.hideminusbar = true;
         $scope.hideminushh = true;
+        $scope.displayAddressValidation = false;
+        $scope.validatedAddresses = [];
+        $scope.addressChoice = 0;
         var open = '10:00';
         var close = '02:00';
         var start = '16:00';
@@ -218,13 +222,34 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             toaster.pop(type, title, message);
         };
         */
+        $scope.validateAddress = function() {
+            var address = $scope.bar.street + ', ' + $scope.bar.city + ', ' + $scope.bar.state + ' ' + $scope.bar.zip;
+            Maps.geocode(address,
+            function(data, status, headers, config) {
+                if (data.status === 'OK') {
+                    $scope.displayAddressValidation = true;
+                    $scope.validatedAddresses = data.results;
+                } else if (data.status === 'ZERO_RESULTS') {
+                    //TODO display message that zero results were returned
+                } else {
+                    console.log('Address Validation Error');
+                }
+            },
+            function(data, status, headers, config) {
+                console.log('Address Geocode Error');
+            });
+        };
         $scope.addBar = function() {
             $scope.addHoursToBar();
+            //TODO use google api to determine proper values for below
             $scope.bar.neighborhood = $scope.bar.neighborhood.toLowerCase();
             $scope.bar.street = $scope.bar.street.toLowerCase();
             $scope.bar.city = $scope.bar.city.toLowerCase();
             $scope.bar.state = $scope.bar.state.toLowerCase();
             $scope.bar.zip = $scope.bar.zip.toLowerCase();
+            var loc = $scope.validatedAddresses[$scope.addressChoice].geometry.location;
+            $scope.bar.latCoord = loc.lat;
+            $scope.bar.longCoord = loc.lng;
             $scope.bar.atmosphere = $scope.bar.atmosphere.toLowerCase();
             $scope.bar.type = $scope.bar.type.toLowerCase();
             $scope.bar.star1 = $scope.bar.star2 = $scope.bar.star3 = $scope.bar.star4 = $scope.bar.star5 = 0;
@@ -240,7 +265,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 $scope.bar.type.push(type[i].toString().trim());
             }
             $scope.bar.reviews = [];
-            //$scope.create($scope.bar);
+            $scope.create($scope.bar);
             /*
             $scope.bar.img = [];
             if ($scope.barThumb) {
@@ -274,7 +299,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                     */
         };
         $scope.testData = function() {
-            $scope.bar = _.assign($scope.bar, {'price': '1', 'name': 'TestBar', 'neighborhood': 'TestNeighborhood', 'atmosphere': 'test1, test2, test3', 'type': 'test1, test2, test3', 'street': 'testStreet', 'city': 'testCity', 'state': 'testState', 'zip': 'testZip', 'deal': 'testDeal', 'instagram': 'testInsta'});
+            $scope.bar = _.assign($scope.bar, {'price': '1', 'name': 'TestBar', 'neighborhood': 'TestNeighborhood', 'atmosphere': 'test1, test2, test3', 'type': 'test1, test2, test3', 'street': '11800 Goshen Ave', 'city': 'los angeles', 'state': 'ca', 'zip': '90049', 'deal': 'testDeal', 'instagram': 'testInsta'});
         };
         $scope.clear = function() {
             $scope.bar = new BarObject();

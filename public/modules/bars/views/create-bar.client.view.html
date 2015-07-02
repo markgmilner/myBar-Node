@@ -1,120 +1,134 @@
 <section data-ng-controller="BarsController">
     <form name="addNewBar" ng-submit="addNewBar.$valid && addBar()" data-ng-controller="CreateBarController" novalidate> 
-        <br>
-        <div class="row">
-            <input class="col-md-3" ng-model="bar.name" type="text" placeholder="Bar Name" name="name" required/>
-            <input class="col-md-3" ng-model="bar.neighborhood" type="text" placeholder="Neighborhood" name="neighborhood"/> 
-            <input type="text" class="col-md-3" placeholder="Atmosphere (Comma Separated)" ng-model="bar.atmosphere" name="atmosphere" required/>
-            <input type="text" class="col-md-3" placeholder="Type (Comma Separated)" ng-model="bar.type" name="type" required/>
-        </div>
+        <div ng-hide="displayAddressValidation">
+            <br>
+            <div class="row">
+                <input class="col-md-3" ng-model="bar.name" type="text" placeholder="Bar Name" name="name" required/>
+                <input class="col-md-3" ng-model="bar.neighborhood" type="text" placeholder="Neighborhood" name="neighborhood"/> 
+                <input type="text" class="col-md-3" placeholder="Atmosphere (Comma Separated)" ng-model="bar.atmosphere" name="atmosphere" required/>
+                <input type="text" class="col-md-3" placeholder="Type (Comma Separated)" ng-model="bar.type" name="type" required/>
+            </div>
 
-        <div class="row">
-            <input class="col-md-3" ng-model="bar.street" type="text" placeholder="Street" name="street" required/>
-            <input class="col-md-3" ng-model="bar.city" type="text" placeholder="City" name="city" required/>
-            <input class="col-md-3" ng-model="bar.state" type="text" placeholder="State" name="state"  required/>
-            <input class="col-md-3" ng-model="bar.zip" type="text" placeholder="Zip" name="zip" required/>
-        </div>
+            <div class="row">
+                <input class="col-md-3" ng-model="bar.street" type="text" placeholder="Street" name="street" required/>
+                <input class="col-md-3" ng-model="bar.city" type="text" placeholder="City" name="city" required/>
+                <input class="col-md-3" ng-model="bar.state" type="text" placeholder="State" name="state"  required/>
+                <input class="col-md-3" ng-model="bar.zip" type="text" placeholder="Zip" name="zip" required/>
+            </div>
 
-        <div class="row">
-            <input class="col-md-3" ng-model="bar.instagram" type="text" placeholder="Instagram handle" name="instagram"/> 
-            <select class="col-md-3" ng-model="bar.price" ng-init="bar.price = '1'" name="price" required>
-                <option value="1">$</option>
-                <option value="2">$$</option>
-                <option value="3">$$$</option>
-                <option value="4">$$$$</option>
-            </select> 
-            <input class="col-md-3" ng-model="bar.website" type="text" placeholder="Website" name="website" />
-            <input class="col-md-3" ng-model="bar.phone" type="text" placeholder="Phone #" name="phone" />
-        </div>
+            <div class="row">
+                <input class="col-md-3" ng-model="bar.instagram" type="text" placeholder="Instagram handle" name="instagram"/> 
+                <select class="col-md-3" ng-model="bar.price" ng-init="bar.price = '1'" name="price" required>
+                    <option value="1">$</option>
+                    <option value="2">$$</option>
+                    <option value="3">$$$</option>
+                    <option value="4">$$$$</option>
+                </select> 
+                <input class="col-md-3" ng-model="bar.website" type="text" placeholder="Website" name="website" />
+                <input class="col-md-3" ng-model="bar.phone" type="text" placeholder="Phone #" name="phone" />
+            </div>
 
-        <div class="row">
-            <textarea class="col-md-6" rows="3" ng-model="bar.deal" placeholder="HH Deal details" name="deal" required></textarea>
-            <!--<span class="col-md-3">Photo: <input id="photo" type="file" file-model="barThumb" required/></span>-->
-            <span class="col-md-3">
-                <input ng-model="bar.wifi" type="checkbox" value="Wifi" name="Wifi" /> WIFI<br>
-                <input ng-model="bar.outdoor" type="checkbox" value="outdoor" name="outdoor" /> OUTDOOR<br>
-                <input ng-model="bar.tv" type="checkbox" value="tv" name="tv" /> TV<br>
-            </span>
-        </div>
+            <div class="row">
+                <textarea class="col-md-6" rows="3" ng-model="bar.deal" placeholder="HH Deal details" name="deal" required></textarea>
+                <!--<span class="col-md-3">Photo: <input id="photo" type="file" file-model="barThumb" required/></span>-->
+                <span class="col-md-3">
+                    <input ng-model="bar.wifi" type="checkbox" value="Wifi" name="Wifi" /> WIFI<br>
+                    <input ng-model="bar.outdoor" type="checkbox" value="outdoor" name="outdoor" /> OUTDOOR<br>
+                    <input ng-model="bar.tv" type="checkbox" value="tv" name="tv" /> TV<br>
+                </span>
+            </div>
 
-        <div ng-repeat="hours in barHours">
+            <div ng-repeat="hours in barHours">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span>Bar Hours: </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span>M T W Th F S Su</span><br>
+                        <input ng-model="hours.monday" type="checkbox" value="monday" name="monday" />
+                        <input ng-model="hours.tuesday" type="checkbox" value="tuesday" name="tuesday" />
+                        <input ng-model="hours.wednesday" type="checkbox" value="wednesday" name="wednesday" />
+                        <input ng-model="hours.thursday" type="checkbox" value="thursday" name="thursday" />
+                        <input ng-model="hours.friday" type="checkbox" value="friday" name="friday" />
+                        <input ng-model="hours.saturday" type="checkbox" value="saturday" name="saturday" />
+                        <input ng-model="hours.sunday" type="checkbox" value="sunday" name="sunday" />
+                    </div>
+                    <div class="col-md-3">
+                        <input class="" ng-model="hours.open" type="time" name="open"/>
+                        <input class="" ng-model="hours.close" type="time" name="close"/> 
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-danger" ng-hide="hideminusbar" ng-click="removeBarHours(hours)" type="button">-</button>
+                        <button class="btn btn-success " ng-show="showAddBarHours(hours)" ng-click="addBarHours()" type="button">+</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <br>
+
+            <div ng-repeat="hours in hhHours">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span>Happy Hours: </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span>M T W Th F S Su</span><br>
+                        <input ng-model="hours.monday" type="checkbox" value="monday" name="monday" />
+                        <input ng-model="hours.tuesday" type="checkbox" value="tuesday" name="tuesday" />
+                        <input ng-model="hours.wednesday" type="checkbox" value="wednesday" name="wednesday" />
+                        <input ng-model="hours.thursday" type="checkbox" value="thursday" name="thursday" />
+                        <input ng-model="hours.friday" type="checkbox" value="friday" name="friday" />
+                        <input ng-model="hours.saturday" type="checkbox" value="saturday" name="saturday" />
+                        <input ng-model="hours.sunday" type="checkbox" value="sunday" name="sunday" />
+                    </div>
+                    <div class="col-md-3">
+                        <input class="" ng-model="hours.start" type="time" name="start"/>
+                        <input class="" ng-model="hours.end" type="time" name="end"/> 
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-danger" ng-hide="hideminushh" ng-click="removeHHHours(hours)" type="button">-</button>
+                        <button class="btn btn-success" ng-show="showAddHHHours(hours)" ng-click="addHHHours()" type="button">+</button>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-md-2">
-                    <span>Bar Hours: </span>
+                    <span>Best Nights:</span>
                 </div>
                 <div class="col-md-4">
                     <span>M T W Th F S Su</span><br>
-                    <input ng-model="hours.monday" type="checkbox" value="monday" name="monday" />
-                    <input ng-model="hours.tuesday" type="checkbox" value="tuesday" name="tuesday" />
-                    <input ng-model="hours.wednesday" type="checkbox" value="wednesday" name="wednesday" />
-                    <input ng-model="hours.thursday" type="checkbox" value="thursday" name="thursday" />
-                    <input ng-model="hours.friday" type="checkbox" value="friday" name="friday" />
-                    <input ng-model="hours.saturday" type="checkbox" value="saturday" name="saturday" />
-                    <input ng-model="hours.sunday" type="checkbox" value="sunday" name="sunday" />
+                    <input ng-model="bar.monday.best" type="checkbox" />
+                    <input ng-model="bar.tuesday.best" type="checkbox" />
+                    <input ng-model="bar.wednesday.best" type="checkbox" />
+                    <input ng-model="bar.thursday.best" type="checkbox" />
+                    <input ng-model="bar.friday.best" type="checkbox" />
+                    <input ng-model="bar.saturday.best" type="checkbox" />
+                    <input ng-model="bar.sunday.best" type="checkbox" />
                 </div>
-                <div class="col-md-3">
-                    <input class="" ng-model="hours.open" type="time" name="open"/>
-                    <input class="" ng-model="hours.close" type="time" name="close"/> 
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-danger" ng-hide="hideminusbar" ng-click="removeBarHours(hours)" type="button">-</button>
-                    <button class="btn btn-success " ng-show="showAddBarHours(hours)" ng-click="addBarHours()" type="button">+</button>
-                </div>
-                <br>
             </div>
-        </div>
-        <br>
-
-        <div ng-repeat="hours in hhHours">
+            <br>
             <div class="row">
-                <div class="col-md-2">
-                    <span>Happy Hours: </span>
-                </div>
-                <div class="col-md-4">
-                    <span>M T W Th F S Su</span><br>
-                    <input ng-model="hours.monday" type="checkbox" value="monday" name="monday" />
-                    <input ng-model="hours.tuesday" type="checkbox" value="tuesday" name="tuesday" />
-                    <input ng-model="hours.wednesday" type="checkbox" value="wednesday" name="wednesday" />
-                    <input ng-model="hours.thursday" type="checkbox" value="thursday" name="thursday" />
-                    <input ng-model="hours.friday" type="checkbox" value="friday" name="friday" />
-                    <input ng-model="hours.saturday" type="checkbox" value="saturday" name="saturday" />
-                    <input ng-model="hours.sunday" type="checkbox" value="sunday" name="sunday" />
-                </div>
-                <div class="col-md-3">
-                    <input class="" ng-model="hours.start" type="time" name="start"/>
-                    <input class="" ng-model="hours.end" type="time" name="end"/> 
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-danger" ng-hide="hideminushh" ng-click="removeHHHours(hours)" type="button">-</button>
-                    <button class="btn btn-success" ng-show="showAddHHHours(hours)" ng-click="addHHHours()" type="button">+</button>
-                </div>
-                <br>
-
+                <button type="button" class="btn btn-primary col-md-6" data-ng-click="validateAddress()">Submit</button>
+                <button type="button" class="btn btn-danger col-md-3" data-ng-click="clear()">Clear</button>
+            </div>
+            <br>
+            <div class="row">
+                <button type="button" class="btn btn-success col-md-3" ng-click="testData()">Test</button>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-md-2">
-                <span>Best Nights:</span>
+        <div data-ng-show="displayAddressValidation">
+            <h3>Please choose an address</h3>
+            <div ng-repeat="addr in validatedAddresses">
+                <input type="radio" data-ng-model="addressChoice" value="{{$index}}"/>
+                {{addr.formatted_address}}
             </div>
-            <div class="col-md-4">
-                <span>M T W Th F S Su</span><br>
-                <input ng-model="bar.monday.best" type="checkbox" />
-                <input ng-model="bar.tuesday.best" type="checkbox" />
-                <input ng-model="bar.wednesday.best" type="checkbox" />
-                <input ng-model="bar.thursday.best" type="checkbox" />
-                <input ng-model="bar.friday.best" type="checkbox" />
-                <input ng-model="bar.saturday.best" type="checkbox" />
-                <input ng-model="bar.sunday.best" type="checkbox" />
+            <div class="row">
+                <input type="submit" class="btn btn-primary col-md-6" value="Submit" />
             </div>
         </div>
-        <br>
-        <div class="row">
-            <input type="submit" class="btn btn-primary col-md-6" value="Submit" />
-            <button type="button" class="btn btn-danger col-md-3"  ng-click="clear()">Clear</button>
-        </div>
-        <br>
-        <div class="row">
-            <button type="button" class="btn btn-success col-md-3" ng-click="testData()">Test</button>
-        </div>
+    </form>
+</section>
 
