@@ -21,6 +21,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
         $scope.hideminushh = true;
         $scope.displayAddressValidation = false;
         $scope.validatedAddresses = [];
+        $scope.zeroAddressesReturned = false;
         $scope.addressChoice = 0;
         var open = '10:00';
         var close = '02:00';
@@ -125,13 +126,19 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
         */
         $scope.validateAddress = function() {
             var address = $scope.bar.street + ', ' + $scope.bar.city + ', ' + $scope.bar.state + ' ' + $scope.bar.zip;
+            $scope.zeroAddressesReturned = false;
             Maps.geocode(address,
             function(data, status, headers, config) {
                 if (data.status === 'OK') {
-                    $scope.displayAddressValidation = true;
-                    $scope.validatedAddresses = data.results;
+                    var results = data.results;
+                    $scope.validatedAddresses = results;
+                    if (results.length > 1 || results[0].partial_match) {
+                        $scope.displayAddressValidation = true;
+                    } else {
+                        $scope.addBar();
+                    }
                 } else if (data.status === 'ZERO_RESULTS') {
-                    //TODO display message that zero results were returned
+                    $scope.zeroAddressesReturned = true;
                 } else {
                     console.log('Address Validation Error');
                 }
@@ -170,7 +177,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 $scope.bar.type.push(type[i].toString().trim());
             }
             $scope.bar.reviews = [];
-            //$scope.create($scope.bar);
+            $scope.create($scope.bar);
             /*
             $scope.bar.img = [];
             if ($scope.barThumb) {

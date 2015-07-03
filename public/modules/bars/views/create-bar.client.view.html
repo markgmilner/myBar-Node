@@ -110,6 +110,10 @@
                 </div>
             </div>
             <br>
+            <!--TODO put the rest of the error messages here after upgrading angular-->
+            <div>
+                <div data-ng-show="zeroAddressesReturned">We could not find the address given.  Please try another address.</div>
+            </div>
             <div class="row">
                 <button type="button" class="btn btn-primary col-md-6" data-ng-click="validateAddress()">Submit</button>
                 <button type="button" class="btn btn-danger col-md-3" data-ng-click="clear()">Clear</button>
