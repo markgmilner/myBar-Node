@@ -93,123 +93,24 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             $scope.addBaseHHHours();
         };
         $scope.addHoursToBar = function() {
-            var i;
-            var j;
-            for (i = 0; i < $scope.barHours.length; i++)
-            {
-                if ($scope.barHours[i].monday)
-                {
-                    var monday = $scope.bar.monday;
-                    monday.isClosed = false;
-                    monday.open = $scope.barHours[i].open;
-                    monday.close = $scope.barHours[i].close;
-                    monday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].monday)
-                        {
-                            monday.noHH = false;
-                            monday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
+            var days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+            _.forEach($scope.barHours, function(hourItem) {
+                _.forEach(days, function(day) {
+                    if (_.get(hourItem, day)) {
+                        var d = _.get($scope.bar, day);
+                        d.isClosed = false;
+                        d.open = hourItem.open;
+                        d.close = hourItem.close;
+                        d.happyHour = [];
+                        _.forEach($scope.hhHours, function(hhHourItem) {
+                            if (_.get(hhHourItem, day)) {
+                                d.noHH = false;
+                                d.happyHour.push({start: hhHourItem.start, end: hhHourItem.end});
+                            }
+                        });
                     }
-                }
-                if ($scope.barHours[i].tuesday)
-                {
-                    var tuesday = $scope.bar.tuesday;
-                    tuesday.isClosed = false;
-                    tuesday.open = $scope.barHours[i].open;
-                    tuesday.close = $scope.barHours[i].close;
-                    tuesday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].tuesday)
-                        {
-                            tuesday.noHH = false;
-                            tuesday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
-                    }
-                }
-                if ($scope.barHours[i].wednesday)
-                {
-                    var wednesday = $scope.bar.wednesday;
-                    wednesday.isClosed = false;
-                    wednesday.open = $scope.barHours[i].open;
-                    wednesday.close = $scope.barHours[i].close;
-                    wednesday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].wednesday)
-                        {
-                            wednesday.noHH = false;
-                            wednesday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
-                    }
-                }
-                if ($scope.barHours[i].thursday)
-                {
-                    var thursday = $scope.bar.thursday;
-                    thursday.isClosed = false;
-                    thursday.open = $scope.barHours[i].open;
-                    thursday.close = $scope.barHours[i].close;
-                    thursday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].thursday)
-                        {
-                            thursday.noHH = false;
-                            thursday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
-                    }
-                }
-                if ($scope.barHours[i].friday)
-                {
-                    var friday = $scope.bar.friday;
-                    friday.isClosed = false;
-                    friday.open = $scope.barHours[i].open;
-                    friday.close = $scope.barHours[i].close;
-                    friday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].friday)
-                        {
-                            friday.noHH = false;
-                            friday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
-                    }
-                }
-                if ($scope.barHours[i].saturday)
-                {
-                    var saturday = $scope.bar.saturday;
-                    saturday.isClosed = false;
-                    saturday.open = $scope.barHours[i].open;
-                    saturday.close = $scope.barHours[i].close;
-                    saturday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].saturday)
-                        {
-                            saturday.noHH = false;
-                            saturday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
-                    }
-                }
-                if ($scope.barHours[i].sunday)
-                {
-                    var sunday = $scope.bar.sunday;
-                    sunday.isClosed = false;
-                    sunday.open = $scope.barHours[i].open;
-                    sunday.close = $scope.barHours[i].close;
-                    sunday.happyHour = [];
-                    for (j = 0; j < $scope.hhHours.length; j++)
-                    {
-                        if ($scope.hhHours[j].sunday)
-                        {
-                            sunday.noHH = false;
-                            sunday.happyHour.push({start: $scope.hhHours[j].start, end: $scope.hhHours[j].end});
-                        }
-                    }
-                }
-            }
+                });
+            });
         };
         /*
         $scope.uploadFile = function(id) {
@@ -239,6 +140,10 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 console.log('Address Geocode Error');
             });
         };
+        $scope.validateAddressBack = function() {
+            $scope.displayAddressValidation = false;
+            $scope.validatedAddresses = [];
+        };
         $scope.addBar = function() {
             $scope.addHoursToBar();
             //TODO use google api to determine proper values for below
@@ -265,7 +170,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 $scope.bar.type.push(type[i].toString().trim());
             }
             $scope.bar.reviews = [];
-            $scope.create($scope.bar);
+            //$scope.create($scope.bar);
             /*
             $scope.bar.img = [];
             if ($scope.barThumb) {
