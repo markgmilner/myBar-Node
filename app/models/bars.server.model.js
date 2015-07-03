@@ -62,7 +62,10 @@ var BarSchema = new Schema({
     star3: Number,
     star4: Number,
     star5: Number,
-    reviews: [String],
+    reviews: [{
+    	type: ObjectId,
+    	ref: 'Review'
+    }],
     tv: Boolean,
     wifi: Boolean,
     outdoor: Boolean,

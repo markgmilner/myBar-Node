@@ -9,6 +9,4 @@ app/tests/coverage/
 .idea/
 *.swp
 
-app/controllers/reviews.server.controller.js
 
-app/models/reviews.server.model.js
