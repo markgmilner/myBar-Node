@@ -6,7 +6,7 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 		$scope.authentication = Authentication;
 		$scope.max = 5;
 		$scope.isReadonly = false;
-        $scope.newReviews = {rating: 3, comment: "", timestamp: 0, user: "", good: 0, bad: 0};
+        $scope.newReviews = {rating: 3, review: "", addedBy: "", good: 0, bad: 0};
         $scope.noReviews = false;
         $scope.max = 5;
         $scope.rating = 0;
@@ -20,9 +20,10 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 		};
         
         $scope.addReview = function(bar){
-        	$scope.newReviews.timestamp = Date.now();
 			//$scope.newReviews.user = $rootScope.username;
 			$scope.bar.reviews.unshift($scope.newReviews);
+			$scope.newReviews.barName = $scope.bar.name;
+			$scope.newReviews.barID = $scope.bar._id;
 			switch ($scope.newReviews.rating) {
 				case 1:
 					$scope.bar.star1 += 1;
@@ -40,7 +41,8 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 					$scope.bar.star5 += 1;
 					break;
 			}
-			//TODO  send to server
+			//TODO update bar with star
+			//TODO  review add
         };
         
         //TODO $scope.goodReview = function (review)
@@ -72,6 +74,13 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 				$scope.marker.coords.longitude = $scope.bar.longCoord;
 				$scope.map.center.latitude = $scope.bar.latCoord;
 				$scope.map.center.longitude = $scope.bar.longCoord;
+				$scope.totalReviews = $scope.bar.reviews.length;
+				console.log('totalreviews:' + $scope.totalReviews);
+				$scope.noReviews = ($scope.totalReviews == 0);
+				if (!$scope.noReviews){
+					$scope.rating = ($scope.bar.star1 + ($scope.bar.star2 * 2) + ($scope.bar.star3 * 3) + ($scope.bar.star4 * 4) + ($scope.bar.star5 * 5)) / ($scope.totalReviews);
+				}
+				console.log('rating:' + $scope.rating);
 			}
 			);
 			

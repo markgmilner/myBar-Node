@@ -5,7 +5,6 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 		$scope.authentication = Authentication;
 		
 		$scope.create = function(barObj) {
-			//TODO *********************** Send address to gmapapi to get lat/long and update bar
 			var bar = new Bars(
 				barObj
 			);

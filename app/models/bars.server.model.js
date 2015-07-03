@@ -56,7 +56,16 @@ var BarSchema = new Schema({
     thursday: DayDef,
     friday: DayDef,
     saturday: DayDef,
-    sunday: DayDef
+    sunday: DayDef,
+    star1: Number,
+    star2: Number,
+    star3: Number,
+    star4: Number,
+    star5: Number,
+    reviews: [String],
+    tv: Boolean,
+    wifi: Boolean,
+    outdoor: Boolean,
 });
 
 mongoose.model('Bar', BarSchema);
