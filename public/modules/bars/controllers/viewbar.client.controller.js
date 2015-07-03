@@ -67,11 +67,14 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 		$scope.findOne = function() {
 			$scope.bar = Bars.get({
 				barId: $stateParams.barId
-			});
-			$scope.marker.coords.latitude = $scope.bar.latCoord;
-			$scope.marker.coords.longitue = $scope.bar.longCoord;
-			$scope.map.center.latitude = $scope.bar.latCoord;
-			$scope.map.center.longitue = $scope.bar.longCoord;
+			}, function(){
+				$scope.marker.coords.latitude = $scope.bar.latCoord;
+				$scope.marker.coords.longitude = $scope.bar.longCoord;
+				$scope.map.center.latitude = $scope.bar.latCoord;
+				$scope.map.center.longitude = $scope.bar.longCoord;
+			}
+			);
+			
 		};
 		
 		uiGmapGoogleMapApi.then(function(maps) {}); 
