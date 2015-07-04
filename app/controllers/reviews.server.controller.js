@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	Review = mongoose.model('Review'),
+	bars = require('../../app/controllers/bars'),
 	_ = require('lodash');
 
 /**
@@ -19,6 +20,7 @@ exports.create = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			bars.addReview(review._id, review.barID, review.rating);
 			res.jsonp(review);
 		}
 	});

@@ -8,7 +8,7 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
         $scope.rating = 0;
         $scope.noReviews = false;
 		$scope.isReadonly = false;
-        $scope.newReviews = {rating: 3, review: "", good: 0, bad: 0};
+        $scope.newReviews = {rating: 3, review: '', good: 0, bad: 0};
         
         $scope.map = { center: { latitude: 34.0451919, longitude: -118.2611465 }, zoom: 15 };
         $scope.marker = { id:0, coords: {latitude: 34.0451919, longitude: -118.2611465 }, options: {draggable: false}, events: {} };
@@ -82,11 +82,9 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 				$scope.map.center.latitude = $scope.bar.latCoord;
 				$scope.map.center.longitude = $scope.bar.longCoord;
 				$scope.totalReviews = $scope.bar.reviews.length;
-				$scope.noReviews = ($scope.totalReviews == 0);
+				$scope.noReviews = ($scope.totalReviews === 0);
 				if (!$scope.noReviews){
-					$scope.rating = ($scope.bar.star1 + ($scope.bar.star2 * 2) + ($scope.bar.star3 * 3) + ($scope.bar.star4 * 4) + ($scope.bar.star5 * 5)) / ($scope.totalReviews);
-				} else {
-					//TODO Query For correlated reviews
+					$scope.bar.rating = $scope.bar.rating/$scope.totalReviews;
 				}
 			}
 			);

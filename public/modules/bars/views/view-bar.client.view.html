@@ -7,7 +7,7 @@
         </div>
         <div class="col-md-6">
       		<span class="h2">{{bar.name}}</span>
-         	<rating ng-model="rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
+         	<rating ng-model="bar.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
             <br>
             <address class="titlecaps">
                 <strong><a href="#" class="titlecaps">{{bar.neighborhood}}</a></strong>
@@ -146,13 +146,13 @@
                     <br>
                     <div class="row">
                         <div class="col-md-3">
-                            {{review.user}}
+                            {{review.addedBy}}
                         </div>
                         <div class="col-md-9">
                           	<rating ng-model="review.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
                             {{review.timestamp| date:'short'}}
                             <br>
-                            <p class='bar-deal'>{{review.comment}}</p> 
+                            <p class='bar-deal'>{{review.review}}</p> 
                         </div>
                         <div class="col-md-1" ng-show="admin>0">
                             <button class="btn btn-danger" ng-click="removeReview($index, review.rating)" >Delete</button>

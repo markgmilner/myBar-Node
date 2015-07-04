@@ -33,6 +33,19 @@ exports.read = function(req, res) {
 };
 
 /**
+ * Add a review
+ */
+ exports.addReview = function(reviewID, barID, stars) {
+ 	console.log(reviewID+' '+ barID+' '+stars);
+ 	Bar.findByIdAndUpdate(barID, { $inc: { rating: stars }, $push: {reviews: reviewID}}, 
+ 		function (err, bar) {
+			if (err) {
+				return err;
+			}
+		});
+ };
+
+/**
  * Update a bar
  */
 exports.update = function(req, res) {
