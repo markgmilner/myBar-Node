@@ -23,10 +23,10 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
         $scope.validatedAddresses = [];
         $scope.zeroAddressesReturned = false;
         $scope.addressChoice = 0;
-        var open = '10:00';
-        var close = '02:00';
-        var start = '16:00';
-        var end = '18:00';
+        var open = new Date(0,0,0,9,0,0,0);
+        var close = new Date(0,0,0,2,0,0,0);
+        var start = new Date(0,0,0,16,0,0,0);
+        var end = new Date(0,0,0,18,0,0,0);
         $scope.barHours =
                 [
                     {
@@ -95,18 +95,24 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
         };
         $scope.addHoursToBar = function() {
             var days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+            var convertDate = function(date) {
+                var hours = date.getHours().toString(), mins = date.getMinutes().toString();
+                if (hours.length === 1) hours = '0' + hours;
+                if (mins.length === 1) mins = '0' + mins;
+                return hours + ':' + mins;
+            };
             _.forEach($scope.barHours, function(hourItem) {
                 _.forEach(days, function(day) {
                     if (_.get(hourItem, day)) {
                         var d = _.get($scope.bar, day);
                         d.isClosed = false;
-                        d.open = hourItem.open;
-                        d.close = hourItem.close;
+                        d.open = convertDate(hourItem.open);
+                        d.close = convertDate(hourItem.close);
                         d.happyHour = [];
                         _.forEach($scope.hhHours, function(hhHourItem) {
                             if (_.get(hhHourItem, day)) {
                                 d.noHH = false;
-                                d.happyHour.push({start: hhHourItem.start, end: hhHourItem.end});
+                                d.happyHour.push({start: convertDate(hhHourItem.start), end: convertDate(hhHourItem.end)});
                             }
                         });
                     }
