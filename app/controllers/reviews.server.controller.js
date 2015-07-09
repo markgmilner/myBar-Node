@@ -57,7 +57,7 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var review = req.review;
-
+	bars.removeReview(review.barID, review._id, review.stars);
 	review.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -68,6 +68,15 @@ exports.delete = function(req, res) {
 		}
 	});
 };
+
+/**
+ *	Delete all reviews from Bar
+ */
+ exports.deleteBar = function(newBarID){
+ 	Review.remove({barID: newBarID}, function(err){
+ 		if (err) return 'error';
+ 	});
+ };
 
 /**
  * List of Reviews

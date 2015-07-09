@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	Bar = mongoose.model('Bar'),
+	reviews = require('../../app/controllers/reviews'),
 	_ = require('lodash');
 
 /**
@@ -29,22 +30,45 @@ exports.create = function(req, res) {
  * Show the current bar
  */
 exports.read = function(req, res) {
-	res.jsonp(req.bar);
+	Bar.findOne({_id:req.bar._id})
+		.populate({path: 'reviews', options: { limit: 10 } })
+		.exec(function (err, bar){
+			res.jsonp(bar);
+		});
+	
 };
+
+/**
+ * Load more reviews
+ */
+ exports.moreReviews = function(req, res){
+ //TODO
+ };
 
 /**
  * Add a review
  */
  exports.addReview = function(reviewID, barID, stars) {
- 	console.log(reviewID+' '+ barID+' '+stars);
- 	Bar.findByIdAndUpdate(barID, { $inc: { rating: stars }, $push: {reviews: reviewID}}, 
+  	Bar.findByIdAndUpdate(barID, { $inc: { rating: stars }, $push: {reviews: reviewID}}, 
  		function (err, bar) {
 			if (err) {
 				return err;
 			}
 		});
  };
-
+/**
+ * Remove a review
+ */ 
+ exports.removeReview = function (barID, reviewID, stars){
+ 	stars = stars * -1;
+ 	Bar.findByIdAndUpdate(barID, { $inc : {rating: stars}, $pull: {reviews: reviewID}},
+ 		function (err, bar){
+ 			if (err) {
+ 				return err;
+ 				}
+ 			});
+ };
+ 
 /**
  * Update a bar
  */
@@ -70,6 +94,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	var bar = req.bar;
 
+	reviews.deleteBar(bar._id);
 	bar.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
