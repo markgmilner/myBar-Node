@@ -5,18 +5,48 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
         $scope.testsys = true;
 		$scope.authentication = Authentication;
 		$scope.max = 5;
-        $scope.rating = 0;
+        $scope.rating = 3;
         $scope.noReviews = false;
-		$scope.isReadonly = false;
-        $scope.newReviews = {rating: 3, review: "", good: 0, bad: 0};
+        $scope.newReviews = {rating: 3, review: '', good: 0, bad: 0};
         
         $scope.map = { center: { latitude: 34.0451919, longitude: -118.2611465 }, zoom: 15 };
         $scope.marker = { id:0, coords: {latitude: 34.0451919, longitude: -118.2611465 }, options: {draggable: false}, events: {} };
         
-        //TODO $scope.goodReview = function (review)
-        //TODO $scope.badReview = function (review)
-        //TODO $scope.removeReview = function (review)  must update rating as well on bar
-        //TODO $scope.markAsFavorite = function (bar)  user sets bar as fav
+        $scope.goodReview = function (upreview){
+        	upreview.good = upreview.good + 1;
+        	var review = new Reviews(
+				upreview
+			);
+			review.$update(function(response) {
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+        	
+        };
+        $scope.badReview = function (upreview){
+        	upreview.bad = upreview.bad + 1;
+        	var review = new Reviews(
+				upreview
+			);
+			review.$update(function(response) {
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+        	
+        };
+        
+        $scope.removeReview = function (newReview, index){
+        	$scope.bar.reviews.splice(index, 1);
+        	var review = new Reviews(
+  	      	 	newReview
+  	      	 );
+  	      	 review.$remove(function(response) {
+  	      	 	var a = 1; //TODO remove from Review array
+  	      	 }, function(errorResponse) {
+  	      	 	$scope.error = errorResponse.data.message;
+  	      	 });
+        };
+        
         //TODO $scope.markAsFavorite = function (bar)  user sets bar as fav
 
 		$scope.hoveringOver = function(value) {
@@ -26,27 +56,10 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
         
         $scope.addReview = function(bar){
 			//$scope.newReviews.user = $rootScope.username;
-			$scope.bar.reviews.unshift($scope.newReviews);
+			var temp = $scope.newReviews;
+			$scope.bar.reviews.unshift(temp);
 			$scope.newReviews.barName = $scope.bar.name;
 			$scope.newReviews.barID = $scope.bar._id;
-			switch ($scope.newReviews.rating) {
-				case 1:
-					$scope.bar.star1 += 1;
-					break;
-				case 2:
-					$scope.bar.star2 += 1;
-					break;
-				case 3:
-					$scope.bar.star3 += 1;
-					break;
-				case 4:
-					$scope.bar.star4 += 1;
-					break;
-				case 5:
-					$scope.bar.star5 += 1;
-					break;
-			}
-			//TODO update bar with star but needs to increment at time of send
 			var review = new Reviews(
 				$scope.newReviews
 			);
@@ -55,6 +68,7 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
+			$scope.newReviews = {rating: 3, review: '', good: 0, bad: 0};
         };
         
 		$scope.remove = function(bar) {
@@ -66,6 +80,7 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 						$scope.bars.splice(i, 1);
 					}
 				}
+				$location.path('bars');
 			} else {
 				$scope.bar.$remove(function() {
 					$location.path('bars');
@@ -82,11 +97,9 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 				$scope.map.center.latitude = $scope.bar.address.latCoord;
 				$scope.map.center.longitude = $scope.bar.address.longCoord;
 				$scope.totalReviews = $scope.bar.reviews.length;
-				$scope.noReviews = ($scope.totalReviews == 0);
+				$scope.noReviews = ($scope.totalReviews === 0);
 				if (!$scope.noReviews){
-					$scope.rating = ($scope.bar.star1 + ($scope.bar.star2 * 2) + ($scope.bar.star3 * 3) + ($scope.bar.star4 * 4) + ($scope.bar.star5 * 5)) / ($scope.totalReviews);
-				} else {
-					//TODO Query For correlated reviews
+					$scope.bar.rating = $scope.bar.rating/$scope.totalReviews;
 				}
 			}
 			);

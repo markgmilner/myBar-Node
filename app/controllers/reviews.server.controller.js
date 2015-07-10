@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	Review = mongoose.model('Review'),
+	bars = require('../../app/controllers/bars'),
 	_ = require('lodash');
 
 /**
@@ -19,6 +20,7 @@ exports.create = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			bars.addReview(review._id, review.barID, review.rating);
 			res.jsonp(review);
 		}
 	});
@@ -55,7 +57,7 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var review = req.review;
-
+	bars.removeReview(review.barID, review._id, review.stars);
 	review.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -66,6 +68,15 @@ exports.delete = function(req, res) {
 		}
 	});
 };
+
+/**
+ *	Delete all reviews from Bar
+ */
+ exports.deleteBar = function(newBarID){
+ 	Review.remove({barID: newBarID}, function(err){
+ 		if (err) return 'error';
+ 	});
+ };
 
 /**
  * List of Reviews

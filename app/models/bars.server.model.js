@@ -59,11 +59,7 @@ var BarSchema = new Schema({
     friday: DayDef,
     saturday: DayDef,
     sunday: DayDef,
-    star1: Number,
-    star2: Number,
-    star3: Number,
-    star4: Number,
-    star5: Number,
+    rating: {type: Number, default: 0},
     reviews: [{
     	type: ObjectId,
     	ref: 'Review'
