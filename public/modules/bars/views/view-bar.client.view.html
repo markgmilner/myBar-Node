@@ -10,9 +10,9 @@
          	<rating ng-model="rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
             <br>
             <address class="titlecaps">
-                <strong><a href="#" class="titlecaps">{{bar.neighborhood}}</a></strong>
-                {{bar.street}} <br>
-                {{bar.city}}, {{bar.state}} {{bar.zip}}
+                <strong><a href="#" class="titlecaps">{{bar.address.neighborhood}}</a></strong>
+                {{bar.address.street}} <br>
+                {{bar.address.city}}, {{bar.address.state}} {{bar.address.zip}}
             </address>
 
             <div class="pull-right" ng-show="admin>0">

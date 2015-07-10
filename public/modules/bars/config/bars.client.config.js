@@ -3,10 +3,10 @@
 // Configuring the Articles module
 angular.module('bars').run(['Menus',
 	function(Menus) {
-		// Set top bar menu items
         /*
-		Menus.addMenuItem('topbar', 'Playlists', 'playlists', 'dropdown');
-		Menus.addSubMenuItem('topbar', 'playlists', 'List Playlists', 'playlists');
+		Menus.addMenuItem('topbar', 'Bars', 'bars', 'dropdown', '/bars(/create)?');
+		Menus.addSubMenuItem('topbar', 'bars', 'List Bars', 'bars');
+		Menus.addSubMenuItem('topbar', 'bars', 'Add New Bar', 'bars/create');
         */
 	}
 ]);

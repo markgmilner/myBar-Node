@@ -3,7 +3,6 @@
 // Setting up route
 angular.module('bars').config(['$stateProvider',
 	function($stateProvider) {
-		// Articles state routing
 		$stateProvider.
 		state('listBars', {
 			url: '/bars',

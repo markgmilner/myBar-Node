@@ -1,5 +1,5 @@
 <section data-ng-controller="BarsController">
-    <form name="addNewBar" ng-submit="addNewBar.$valid && addBar()" data-ng-controller="CreateBarController" novalidate> 
+    <form name="addNewBar" data-ng-controller="CreateBarController" novalidate> 
         <div ng-hide="displayAddressValidation">
             <br>
             <div class="row">
@@ -110,12 +110,17 @@
                 </div>
             </div>
             <br>
-            <!--TODO put the rest of the error messages here after upgrading angular-->
+            <!--TODO rest of error messages -->
             <div>
                 <div data-ng-show="zeroAddressesReturned">We could not find the address given.  Please try another address.</div>
+                <div data-ng-show="addNewBar.name.$touched && addNewBar.name.$error.required">A name is required.</div>
+                <div data-ng-show="addNewBar.street.$touched && addNewBar.street.$error.required">A street is required.</div>
+                <div data-ng-show="addNewBar.city.$touched && addNewBar.city.$error.required">A city is required.</div>
+                <div data-ng-show="addNewBar.state.$touched && addNewBar.state.$error.required">A state is required.</div>
+                <div data-ng-show="addNewBar.zip.$touched && addNewBar.zip.$error.required">A zip is required.</div>
             </div>
             <div class="row">
-                <button type="button" class="btn btn-primary col-md-6" data-ng-click="validateAddress()">Submit</button>
+                <button type="button" class="btn btn-primary col-md-6" data-ng-click="addNewBar.$valid && validateAddress()">Submit</button>
                 <button type="button" class="btn btn-danger col-md-3" data-ng-click="clear()">Clear</button>
             </div>
             <br>
@@ -127,10 +132,10 @@
             <h3>Please choose an address</h3>
             <div ng-repeat="addr in validatedAddresses">
                 <input type="radio" data-ng-model="addressChoice" value="{{$index}}"/>
-                {{addr.formatted_address}}
+                {{addr.formattedAddress}}
             </div>
             <div class="row">
-                <input type="submit" class="btn btn-primary col-md-6" value="Submit" />
+                <button type="button" class="btn btn-primary col-md-6" data-ng-click="addBar()">Submit</button>
                 <button type="button" class="btn btn-danger col-md-3" data-ng-click="validateAddressBack()">Back</button>
             </div>
         </div>

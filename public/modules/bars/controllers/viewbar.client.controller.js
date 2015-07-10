@@ -77,10 +77,10 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 			$scope.bar = Bars.get({
 				barId: $stateParams.barId
 			}, function(){
-				$scope.marker.coords.latitude = $scope.bar.latCoord;
-				$scope.marker.coords.longitude = $scope.bar.longCoord;
-				$scope.map.center.latitude = $scope.bar.latCoord;
-				$scope.map.center.longitude = $scope.bar.longCoord;
+				$scope.marker.coords.latitude = $scope.bar.address.latCoord;
+				$scope.marker.coords.longitude = $scope.bar.address.longCoord;
+				$scope.map.center.latitude = $scope.bar.address.latCoord;
+				$scope.map.center.longitude = $scope.bar.address.longCoord;
 				$scope.totalReviews = $scope.bar.reviews.length;
 				$scope.noReviews = ($scope.totalReviews == 0);
 				if (!$scope.noReviews){

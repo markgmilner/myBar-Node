@@ -8,8 +8,7 @@ function BarObject() {
         thursday : {isClosed: true, noHH: true, best: false},
         friday : {isClosed: true, noHH: true, best: false},
         saturday : {isClosed: true, noHH: true, best: false},
-        sunday : {isClosed: true, noHH: true, best: false},
-        addressLocation : {lat : 0, lng : 0}
+        sunday : {isClosed: true, noHH: true, best: false}
     };
 }
 
@@ -155,34 +154,36 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
         };
         $scope.validateAddressBack = function() {
             $scope.displayAddressValidation = false;
+            //TODO should change to check for input on address fields before clearing addresses
             $scope.validatedAddresses = [];
         };
         $scope.addBar = function() {
             $scope.addHoursToBar();
-            //TODO use google api to determine proper values for below
-            $scope.bar.neighborhood = $scope.bar.neighborhood.toLowerCase();
-            $scope.bar.street = $scope.bar.street.toLowerCase();
-            $scope.bar.city = $scope.bar.city.toLowerCase();
-            $scope.bar.state = $scope.bar.state.toLowerCase();
-            $scope.bar.zip = $scope.bar.zip.toLowerCase();
-            var loc = $scope.validatedAddresses[$scope.addressChoice].geometry.location;
-            $scope.bar.latCoord = loc.lat;
-            $scope.bar.longCoord = loc.lng;
-            $scope.bar.atmosphere = $scope.bar.atmosphere.toLowerCase();
-            $scope.bar.type = $scope.bar.type.toLowerCase();
-            $scope.bar.star1 = $scope.bar.star2 = $scope.bar.star3 = $scope.bar.star4 = $scope.bar.star5 = 0;
-            var atm = $scope.bar.atmosphere.split(',');
-            $scope.bar.atmosphere = [];
+            var bar = $scope.bar;
+            var address = $scope.validatedAddresses[$scope.addressChoice];
+            bar.address = _.pick(address, ['formattedAddress', 'latCoord', 'longCoord']);
+            bar.address.neighborhood = address.neighborhood || bar.neighborhood;
+            //TODO failsafes for these
+            bar.address.street = [address.street_number, address.route].join(' '); 
+            bar.address.city = address.locality; 
+            bar.address.state = address.administrative_area_level_1; 
+            bar.address.zip = address.postal_code; 
+
+            bar.atmosphere = bar.atmosphere.toLowerCase();
+            bar.type = bar.type.toLowerCase();
+            bar.star1 = bar.star2 = bar.star3 = bar.star4 = bar.star5 = 0;
+            var atm = bar.atmosphere.split(',');
+            bar.atmosphere = [];
             var i;
             for (i = 0; i < atm.length; i++) {
-                $scope.bar.atmosphere.push(atm[i].toString().trim());
+                bar.atmosphere.push(atm[i].toString().trim());
             }
-            var type = $scope.bar.type.split(',');
-            $scope.bar.type = [];
+            var type = bar.type.split(',');
+            bar.type = [];
             for (i = 0; i < type.length; i++) {
-                $scope.bar.type.push(type[i].toString().trim());
+                bar.type.push(type[i].toString().trim());
             }
-            $scope.bar.reviews = [];
+            bar.reviews = [];
             $scope.create($scope.bar);
             /*
             $scope.bar.img = [];
@@ -190,31 +191,6 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 $scope.bar.thumb = $scope.barThumb.name;
             }
             */
-            /*
-            $http.post('/php/addBar.php', $scope.bar)
-                    .success(function(response, status, headers, config)
-                    {
-                        if (response.success === 0) {
-                            $scope.pop('error', "ERROR!", response.message);
-                        }
-                        else if (response.success === 1) {
-                            $scope.pop('success', "SUCCESS!", $scope.bar.name + " added!");
-                            $scope.uploadFile(response.id);
-                        }
-                        var temp = $scope.bar.name;
-                        $scope.bar = {};
-                        document.getElementById('photo').value = null;
-                        $scope.setBaseBarHours();
-                        $scope.setBaseHHHours();
-                        console.log(status + ' - ' + response.message);
-                        $location.url('/viewBar/' + temp);
-                    })
-                    .error(function(data, status)
-                    {
-                        $scope.pop('error', "ERROR!", "OOPS! Something went wrong!\n" + data);
-                        console.log('error');
-                    });
-                    */
         };
         $scope.testData = function() {
             $scope.bar = _.assign($scope.bar, {'price': '1', 'name': 'TestBar', 'neighborhood': 'TestNeighborhood', 'atmosphere': 'test1, test2, test3', 'type': 'test1, test2, test3', 'street': '11800 Goshen Ave', 'city': 'los angeles', 'state': 'ca', 'zip': '90049', 'deal': 'testDeal', 'instagram': 'testInsta'});
@@ -245,7 +221,6 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             console.log('Set bar hours');
         };
         $scope.setBaseHHHours = function() {
-
             $scope.hhHours =
                     [
                         {
@@ -278,7 +253,6 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             );
         };
         $scope.addBaseHHHours = function() {
-
             $scope.hhHours.push(
                     {
                         monday: true,

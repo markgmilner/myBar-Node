@@ -5,14 +5,10 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 		$scope.authentication = Authentication;
 		
 		$scope.create = function(barObj) {
-			var bar = new Bars(
-				barObj
-			);
+			var bar = new Bars(barObj);
 			bar.$save(function(response) {
 				$location.path('bars/' + response._id);
-
-				$scope.name = '';
-				$scope.description = '';
+                //TODO this should be changed when we decide how to handle bars to keep in scope
                 Bars.bars.push(bar);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
@@ -22,7 +18,6 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 		$scope.remove = function(bar) {
 			if (bar) {
 				bar.$remove();
-
 				for (var i in $scope.bars) {
 					if ($scope.bars[i] === bar) {
 						$scope.bars.splice(i, 1);
@@ -37,7 +32,6 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 
 		$scope.update = function() {
 			var bar = $scope.bar;
-
 			bar.$update(function() {
 				$location.path('bars/' + bar._id);
 			}, function(errorResponse) {
