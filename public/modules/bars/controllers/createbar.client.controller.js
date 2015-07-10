@@ -12,8 +12,8 @@ function BarObject() {
     };
 }
 
-angular.module('bars').controller('CreateBarController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'Maps',
-	function($scope, $stateParams, $location, Authentication, Bars, Maps) {
+angular.module('bars').controller('CreateBarController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'Maps', '_',
+	function($scope, $stateParams, $location, Authentication, Bars, Maps, _) {
 		$scope.authentication = Authentication;
         $scope.bar = new BarObject();
         $scope.hideminusbar = true;

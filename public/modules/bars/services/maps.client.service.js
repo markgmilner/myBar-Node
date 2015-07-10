@@ -1,8 +1,8 @@
 'use strict';
 
 //Bars service used for communicating with the articles REST endpoints
-angular.module('bars').factory('Maps', ['$http',
-	function($http) {
+angular.module('bars').factory('Maps', ['$http', '_',
+	function($http, _) {
         var that = {};
         var gApiKey = 'AIzaSyBL0YxPCRj5ujcgZkGlJ5SDBVAOwdL9XKI';
         var parseGeocodeResults = function(data, headersGetter) {
