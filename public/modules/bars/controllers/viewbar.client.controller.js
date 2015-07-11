@@ -94,7 +94,7 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 				$scope.noReviews = ($scope.totalReviews === 0);
 				if (!$scope.noReviews){
 					$scope.bar.rating = $scope.bar.rating/$scope.totalReviews;
-					$scope.reviews = Reviews.get({barId: $scope.bar._id});
+					$scope.reviews = Reviews.query({barId: $scope.bar._id});
 				}
 				
 			}
