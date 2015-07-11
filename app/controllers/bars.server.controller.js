@@ -31,19 +31,11 @@ exports.create = function(req, res) {
  */
 exports.read = function(req, res) {
 	Bar.findOne({_id:req.bar._id})
-		.populate({path: 'reviews', options: { limit: 10 } })
 		.exec(function (err, bar){
 			res.jsonp(bar);
 		});
 	
 };
-
-/**
- * Load more reviews
- */
- exports.moreReviews = function(req, res){
- //TODO
- };
 
 /**
  * Add a review

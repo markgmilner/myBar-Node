@@ -82,7 +82,7 @@ exports.delete = function(req, res) {
  * List of Reviews
  */
 exports.list = function(req, res) {
-	Review.find().sort('-created').exec(function(err, reviews) {
+	Review.find({barID: req.bar._id}).sort('-created').exec(function(err, reviews) {
 		if (err) {
             console.log('review controller list error');
 			return res.status(400).send({

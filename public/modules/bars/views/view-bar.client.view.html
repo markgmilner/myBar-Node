@@ -142,14 +142,14 @@
             </form>
             <br>
             <ul class="review-list" ng-hide="$noReviews">
-                <li class="review-list-item" data-ng-repeat="review in bar.reviews | orderBy: 'timestamp':true" >
+                <li class="review-list-item" data-ng-repeat="review in reviews | orderBy: 'timestamp':true" >
                     <br>
                     <div class="row">
                         <div class="col-md-3">
                             {{review.addedBy}}
                         </div>
                         <div class="col-md-9">
-                          	<!--<rating ng-model="review.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>-->
+                          	<rating ng-model="review.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
                             {{review.timestamp| date:'short'}}
                             <br>
                             <p class='bar-deal'>{{review.review}}</p> 
