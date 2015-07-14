@@ -82,7 +82,13 @@ exports.delete = function(req, res) {
  * List of Reviews
  */
 exports.list = function(req, res) {
-	Review.find({barID: req.bar._id}).sort('-created').exec(function(err, reviews) {
+	var page = 1;
+	if(req.query.page)
+    {
+      	page = req.query.page;
+    }
+    var per_page = 5;
+	Review.find({barID: req.bar._id}).sort('-created').skip((page-1)*per_page).limit(per_page).exec(function(err, reviews) {
 		if (err) {
             console.log('review controller list error');
 			return res.status(400).send({

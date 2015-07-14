@@ -248,7 +248,7 @@ angular.module('bars').controller('EditBarController', ['$scope', '$stateParams'
             	date = date.split(':');
             	var hours = date[0], mins = date[1];
 				date = new Date(0,0,0,hours, mins, 0,0);                
-                return date
+                return date;
             };
 
 			var i;
@@ -300,7 +300,6 @@ angular.module('bars').controller('EditBarController', ['$scope', '$stateParams'
 				$scope.hideminushh = false;
 			}
 			var temp = '';
-			var i;
 			for (i = 0; i < $scope.bar.atmosphere.length; i++) {
 				temp = temp.concat($scope.bar.atmosphere[i] + ', ');
 			}

@@ -9,9 +9,19 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
         $scope.noReviews = false;
         $scope.newReviews = {rating: 3, review: '', good: 0, bad: 0};
         $scope.reviews = [];
+        $scope.currentPage = 1;
+        $scope.maxSize=5;
         
         $scope.map = { center: { latitude: 34.0451919, longitude: -118.2611465 }, zoom: 15 };
         $scope.marker = { id:0, coords: {latitude: 34.0451919, longitude: -118.2611465 }, options: {draggable: false}, events: {} };
+        
+        $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+        };
+        
+        $scope.pageChanged = function () {
+            $scope.reviews = Reviews.query({barId: $scope.bar._id, page: $scope.currentPage});
+        };
         
         $scope.goodReview = function (upreview){
         	upreview.good = upreview.good + 1;
@@ -98,11 +108,11 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 				$scope.noReviews = ($scope.totalReviews === 0);
 				if (!$scope.noReviews){
 					$scope.bar.rating = $scope.bar.rating/$scope.totalReviews;
-					$scope.reviews = Reviews.query({barId: $scope.bar._id});
-				}
-				
+					$scope.reviews = Reviews.query({barId: $scope.bar._id, page: 1});
+				}				
 			}
 			);
+			
 			
 		};
 		
