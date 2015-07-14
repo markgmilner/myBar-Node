@@ -12,7 +12,7 @@ function BarObject() {
     };
 }
 
-angular.module('bars').controller('CreateBarController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'Maps', '_',
+angular.module('bars').controller('EditBarController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'Maps', '_',
 	function($scope, $stateParams, $location, Authentication, Bars, Maps, _) {
 		$scope.authentication = Authentication;
         $scope.bar = new BarObject();
@@ -26,34 +26,8 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
         var close = new Date(0,0,0,2,0,0,0);
         var start = new Date(0,0,0,16,0,0,0);
         var end = new Date(0,0,0,18,0,0,0);
-        $scope.barHours =
-                [
-                    {
-                        monday: true,
-                        tuesday: true,
-                        wednesday: true,
-                        thursday: true,
-                        friday: true,
-                        saturday: true,
-                        sunday: true,
-                        open: open,
-                        close: close
-                    }
-                ];
-        $scope.hhHours =
-                [
-                    {
-                        monday: true,
-                        tuesday: true,
-                        wednesday: true,
-                        thursday: true,
-                        friday: true,
-                        saturday: false,
-                        sunday: false,
-                        start: start,
-                        end: end
-                    }
-                ];
+        $scope.barHours = [];
+        $scope.hhHours = [];
         $scope.showAddBarHours = function(hours) {
             return hours === $scope.barHours[$scope.barHours.length - 1];
         };
@@ -118,19 +92,11 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 });
             });
         };
-        /*
-        $scope.uploadFile = function(id) {
-            var file = $scope.barThumb;
-            console.info('file is ' + JSON.stringify(file));
-            var uploadUrl = "/php/upload.php";
-            fileUpload.uploadFileToUrl(file, uploadUrl, id);
-        };
-        $scope.pop = function(type, title, message) {
-            toaster.pop(type, title, message);
-        };
-        */
+
+		//TODO File Upload
+		
         $scope.validateAddress = function() {
-            var address = $scope.bar.street + ', ' + $scope.bar.city + ', ' + $scope.bar.state + ' ' + $scope.bar.zip;
+            var address = $scope.bar.address.street + ', ' + $scope.bar.address.city + ',address. ' + $scope.bar.address.state + ' ' + $scope.bar.address.zip;
             $scope.zeroAddressesReturned = false;
             Maps.geocode(address,
             function(data, status, headers, config) {
@@ -168,8 +134,6 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             bar.address.city = address.locality; 
             bar.address.state = address.administrative_area_level_1; 
             bar.address.zip = address.postal_code; 
-            
-            bar.rating = 0;
 
             bar.atmosphere = bar.atmosphere.toLowerCase();
             bar.type = bar.type.toLowerCase();
@@ -185,7 +149,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                 bar.type.push(type[i].toString().trim());
             }
             bar.reviews = [];
-            $scope.create($scope.bar);
+            $scope.update($scope.bar);
             /*
             $scope.bar.img = [];
             if ($scope.barThumb) {
@@ -193,9 +157,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             }
             */
         };
-        $scope.testData = function() {
-            $scope.bar = _.assign($scope.bar, {'price': '1', 'name': 'TestBar', 'neighborhood': 'TestNeighborhood', 'atmosphere': 'test1, test2, test3', 'type': 'test1, test2, test3', 'street': '11800 Goshen Ave', 'city': 'los angeles', 'state': 'ca', 'zip': '90049', 'deal': 'testDeal', 'instagram': 'testInsta'});
-        };
+
         $scope.clear = function() {
             $scope.bar = new BarObject();
             $scope.hideminusbar = true;
@@ -204,6 +166,7 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
             $scope.setBaseHHHours();
             document.getElementById('photo').value = null;
         };
+        
         $scope.setBaseBarHours = function() {
             $scope.barHours =
                     [
@@ -268,5 +231,87 @@ angular.module('bars').controller('CreateBarController', ['$scope', '$stateParam
                     }
             );
         };
+        
+        $scope.findOne = function() {
+			$scope.bar = Bars.get({
+				barId: $stateParams.barId
+			}, function(){
+				$scope.edit();	
+			}
+			);
+			
+		};
+		
+		$scope.edit = function(){
+			var days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+            var convertDate = function(date) {
+            	date = date.split(':');
+            	var hours = date[0], mins = date[1];
+				date = new Date(0,0,0,hours, mins, 0,0);                
+                return date
+            };
+
+			var i;
+			var j;
+			var flag;
+            _.forEach(days, function(day) {
+            	var dayObj = _.get($scope.bar, day);
+            	if (dayObj.isClosed === false){
+            		flag = false;
+            		for (i=0; i<$scope.barHours.length; i++)
+            		{
+            			if ($scope.barHours[i].open.getTime() === convertDate(dayObj.open).getTime() && $scope.barHours[i].close.getTime() === convertDate(dayObj.close).getTime())
+            			{
+            				flag = true;
+            				$scope.barHours[i][day] = true;
+            			}
+            		}
+                    if (flag === false) $scope.barHours.push({[day]: true, open: convertDate(dayObj.open), close: convertDate(dayObj.close)});
+                    if (dayObj.noHH !== true)
+                    {
+                        for (i = 0; i < dayObj.happyHour.length; i++)
+                        {
+                        	flag = false;
+                        	for (j=0; j<$scope.hhHours.length; j++)
+							{
+								if ($scope.hhHours[j].start.getTime() === convertDate(dayObj.happyHour[i].start).getTime() && $scope.hhHours[j].end.getTime() === convertDate(dayObj.happyHour[i].end).getTime())
+								{
+									flag = true;
+									$scope.hhHours[j][day] = true;
+								}
+							}
+                            if (flag === false) $scope.hhHours.push({[day]: true, start: convertDate(dayObj.happyHour[i].start), end: convertDate(dayObj.happyHour[i].end)});
+                        }
+                    }
+                }
+            });
+			if ($scope.barHours.length === 1) {
+				$scope.hideminusbar = true;
+			}
+			else
+			{
+				$scope.hideminusbar = false;
+			}
+			if ($scope.hhHours.length === 1) {
+				$scope.hideminushh = true;
+			}
+			else
+			{
+				$scope.hideminushh = false;
+			}
+			var temp = '';
+			var i;
+			for (i = 0; i < $scope.bar.atmosphere.length; i++) {
+				temp = temp.concat($scope.bar.atmosphere[i] + ', ');
+			}
+			temp = temp.substring(0, temp.length - 2);
+			$scope.bar.atmosphere = temp;
+			temp = '';
+			for (i = 0; i < $scope.bar.type.length; i++) {
+				temp = temp.concat($scope.bar.type[i] + ', ');
+			}
+			temp = temp.substring(0, temp.length - 2);
+			$scope.bar.type = temp;
+		};
     }
 ]);

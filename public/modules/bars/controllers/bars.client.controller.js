@@ -30,10 +30,9 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 			}
 		};
 
-		$scope.update = function() {
-			var bar = $scope.bar;
-			bar.$update(function() {
-				$location.path('bars/' + bar._id);
+		$scope.update = function(barObj) {
+			barObj.$update(function() {
+				$location.path('bars/' + barObj._id);
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

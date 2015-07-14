@@ -81,6 +81,10 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 				});
 			}
 		};
+		
+		$scope.edit = function() {
+			$location.path('bars/'+$scope.bar._id+'/edit');
+		};
 
 		$scope.findOne = function() {
 			$scope.bar = Bars.get({

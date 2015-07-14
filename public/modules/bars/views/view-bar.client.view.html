@@ -17,6 +17,7 @@
 
             <div class="pull-right">
                 <button class="btn btn-danger" ng-click="remove(bar)">DELETE</button>
+                <burron class="btn btn-warning" ng-click="edit()">Edit</button>
             </div>
         </div>
     </div>
@@ -28,7 +29,7 @@
                         <h5>Website:</h5>
                         <span>{{bar.website}}</span>
                         <h5>Phone Number:</h5>
-                        <span>{{bar.phonenum}}</span>
+                        <span>{{bar.phone | tel}}</span>
                         <h5>Happy Hour Deal:  {{bar.price}}</h5>
 
                         <div class='bar-deal' id="bardeal" ng-class="{bardealsho: showmore}">{{bar.deal}}</div>

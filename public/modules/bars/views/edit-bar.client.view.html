@@ -1,35 +1,141 @@
-<section data-ng-controller="PlaylistsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1>Edit Playlist</h1>
-	</div>
-	<div class="col-md-12">
-		<form name="playlistForm" class="form-horizontal" data-ng-submit="update(playlistForm.$valid)" novalidate>
-			<fieldset>
-				<div class="form-group" ng-class="{ 'has-error' : submitted && playlistForm.name.$invalid}">
-					<label class="control-label" for="name">Name</label>
-					<div class="controls">
-						<input name="name" type="text" data-ng-model="playlist.name" id="name" class="form-control" placeholder="Name" required>
-					</div>
-					<div ng-show="submitted && playlistForm.name.$invalid" class="help-block">
-						<p ng-show="playlistForm.name.$error.required" class="text-danger">Name is required</p>
-					</div>
-				</div>
-				<div class="form-group" ng-class="{ 'has-error' : submitted && playlistForm.description.$invalid}">
-					<label class="control-label" for="description">Description</label>
-					<div class="controls">
-						<textarea name="description" data-ng-model="playlist.description" id="description" class="form-control" cols="30" rows="10" placeholder="Description" required></textarea>
-					</div>
-					<div ng-show="submitted && playlistForm.description.$invalid" class="help-block">
-						<p ng-show="playlistForm.description.$error.required" class="text-danger">Description is required</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<input type="submit" value="Update" class="btn btn-default">
-				</div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-			</fieldset>
-		</form>
-	</div>
+<section data-ng-controller="BarsController">
+    <form name="addNewBar" data-ng-controller="EditBarController" data-ng-init="findOne()" novalidate> 
+        <div ng-hide="displayAddressValidation">
+            <br>
+            <div class="row">
+                <input class="col-md-3" ng-model="bar.name" type="text" placeholder="Bar Name" name="name" required/>
+                <input class="col-md-3" ng-model="bar.address.neighborhood" type="text" placeholder="Neighborhood" name="neighborhood"/> 
+                <input type="text" class="col-md-3" placeholder="Atmosphere (Comma Separated)" ng-model="bar.atmosphere" name="atmosphere" required/>
+                <input type="text" class="col-md-3" placeholder="Type (Comma Separated)" ng-model="bar.type" name="type" required/>
+            </div>
+
+            <div class="row">
+                <input class="col-md-3" ng-model="bar.address.street" type="text" placeholder="Street" name="street" required/>
+                <input class="col-md-3" ng-model="bar.address.city" type="text" placeholder="City" name="city" required/>
+                <input class="col-md-3" ng-model="bar.address.state" type="text" placeholder="State" name="state"  required/>
+                <input class="col-md-3" ng-model="bar.address.zip" type="text" placeholder="Zip" name="zip" required/>
+            </div>
+
+            <div class="row">
+                <input class="col-md-3" ng-model="bar.instagram" type="text" placeholder="Instagram handle" name="instagram"/> 
+                <select class="col-md-3" ng-model="bar.price" ng-init="bar.price = '1'" name="price" required>
+                    <option value="1">$</option>
+                    <option value="2">$$</option>
+                    <option value="3">$$$</option>
+                    <option value="4">$$$$</option>
+                </select> 
+                <input class="col-md-3" ng-model="bar.website" type="text" placeholder="Website" name="website" />
+                <input class="col-md-3" ng-model="bar.phone" type="text" placeholder="Phone #" name="phone" />
+            </div>
+
+            <div class="row">
+                <textarea class="col-md-6" rows="3" ng-model="bar.deal" placeholder="HH Deal details" name="deal" required></textarea>
+                <!--<span class="col-md-3">Photo: <input id="photo" type="file" file-model="barThumb" required/></span>-->
+                <span class="col-md-3">
+                    <input ng-model="bar.wifi" type="checkbox" value="Wifi" name="Wifi" /> WIFI<br>
+                    <input ng-model="bar.outdoor" type="checkbox" value="outdoor" name="outdoor" /> OUTDOOR<br>
+                    <input ng-model="bar.tv" type="checkbox" value="tv" name="tv" /> TV<br>
+                </span>
+            </div>
+
+            <div ng-repeat="hours in barHours">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span>Bar Hours: </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span>M T W Th F S Su</span><br>
+                        <input ng-model="hours.monday" type="checkbox" value="monday" name="monday" />
+                        <input ng-model="hours.tuesday" type="checkbox" value="tuesday" name="tuesday" />
+                        <input ng-model="hours.wednesday" type="checkbox" value="wednesday" name="wednesday" />
+                        <input ng-model="hours.thursday" type="checkbox" value="thursday" name="thursday" />
+                        <input ng-model="hours.friday" type="checkbox" value="friday" name="friday" />
+                        <input ng-model="hours.saturday" type="checkbox" value="saturday" name="saturday" />
+                        <input ng-model="hours.sunday" type="checkbox" value="sunday" name="sunday" />
+                    </div>
+                    <div class="col-md-3">
+                        <input class="" ng-model="hours.open" type="time" name="open"/>
+                        <input class="" ng-model="hours.close" type="time" name="close"/> 
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-danger" ng-hide="hideminusbar" ng-click="removeBarHours(hours)" type="button">-</button>
+                        <button class="btn btn-success " ng-show="showAddBarHours(hours)" ng-click="addBarHours()" type="button">+</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <br>
+
+            <div ng-repeat="hours in hhHours">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span>Happy Hours: </span>
+                    </div>
+                    <div class="col-md-4">
+                        <span>M T W Th F S Su</span><br>
+                        <input ng-model="hours.monday" type="checkbox" value="monday" name="monday" />
+                        <input ng-model="hours.tuesday" type="checkbox" value="tuesday" name="tuesday" />
+                        <input ng-model="hours.wednesday" type="checkbox" value="wednesday" name="wednesday" />
+                        <input ng-model="hours.thursday" type="checkbox" value="thursday" name="thursday" />
+                        <input ng-model="hours.friday" type="checkbox" value="friday" name="friday" />
+                        <input ng-model="hours.saturday" type="checkbox" value="saturday" name="saturday" />
+                        <input ng-model="hours.sunday" type="checkbox" value="sunday" name="sunday" />
+                    </div>
+                    <div class="col-md-3">
+                        <input class="" ng-model="hours.start" type="time" name="start"/>
+                        <input class="" ng-model="hours.end" type="time" name="end"/> 
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-danger" ng-hide="hideminushh" ng-click="removeHHHours(hours)" type="button">-</button>
+                        <button class="btn btn-success" ng-show="showAddHHHours(hours)" ng-click="addHHHours()" type="button">+</button>
+                    </div>
+                    <br>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Best Nights:</span>
+                </div>
+                <div class="col-md-4">
+                    <span>M T W Th F S Su</span><br>
+                    <input ng-model="bar.monday.best" type="checkbox" />
+                    <input ng-model="bar.tuesday.best" type="checkbox" />
+                    <input ng-model="bar.wednesday.best" type="checkbox" />
+                    <input ng-model="bar.thursday.best" type="checkbox" />
+                    <input ng-model="bar.friday.best" type="checkbox" />
+                    <input ng-model="bar.saturday.best" type="checkbox" />
+                    <input ng-model="bar.sunday.best" type="checkbox" />
+                </div>
+            </div>
+            <br>
+            <!--TODO rest of error messages -->
+            <div>
+                <div data-ng-show="zeroAddressesReturned">We could not find the address given.  Please try another address.</div>
+                <div data-ng-show="addNewBar.name.$touched && addNewBar.name.$error.required">A name is required.</div>
+                <div data-ng-show="addNewBar.street.$touched && addNewBar.street.$error.required">A street is required.</div>
+                <div data-ng-show="addNewBar.city.$touched && addNewBar.city.$error.required">A city is required.</div>
+                <div data-ng-show="addNewBar.state.$touched && addNewBar.state.$error.required">A state is required.</div>
+                <div data-ng-show="addNewBar.zip.$touched && addNewBar.zip.$error.required">A zip is required.</div>
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-primary col-md-6" data-ng-click="addNewBar.$valid && validateAddress()">Submit</button>
+                <button type="button" class="btn btn-danger col-md-3" data-ng-click="clear()">Clear</button>
+            </div>
+            <br>
+        </div>
+        <div data-ng-show="displayAddressValidation">
+            <h3>Please choose an address</h3>
+            <div ng-repeat="addr in validatedAddresses">
+                <input type="radio" data-ng-model="addressChoice" value="{{$index}}"/>
+                {{addr.formattedAddress}}
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-primary col-md-6" data-ng-click="addBar()">Submit</button>
+                <button type="button" class="btn btn-danger col-md-3" data-ng-click="validateAddressBack()">Back</button>
+            </div>
+        </div>
+    </form>
 </section>
+
