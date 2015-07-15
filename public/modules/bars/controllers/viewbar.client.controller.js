@@ -97,6 +97,8 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 		};
 
 		$scope.findOne = function() {
+			if($stateParams.barId === '')
+				$location.path('bars');
 			$scope.bar = Bars.get({
 				barId: $stateParams.barId
 			}, function(){
@@ -110,8 +112,7 @@ angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams
 					$scope.bar.rating = $scope.bar.rating/$scope.totalReviews;
 					$scope.reviews = Reviews.query({barId: $scope.bar._id, page: 1});
 				}				
-			}
-			);
+			});
 			
 			
 		};
