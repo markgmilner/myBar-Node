@@ -250,67 +250,53 @@ angular.module('bars').controller('EditBarController', ['$scope', '$stateParams'
 				date = new Date(0,0,0,hours, mins, 0,0);                
                 return date;
             };
-
-			var i;
-			var j;
-			var flag;
+            //consolidate hours into groupings
+            var hoursToString = function(start, end) { return start + '-' + end; };
+            var hoursFromString = function(hours) { var split = hours.split('-'); return {start : split[0], end : split[1]}; };
+            var hoursOp = {};
+            var hoursHh = {};
             _.forEach(days, function(day) {
             	var dayObj = _.get($scope.bar, day);
-            	if (dayObj.isClosed === false){
-            		flag = false;
-            		for (i=0; i<$scope.barHours.length; i++)
-            		{
-            			if ($scope.barHours[i].open.getTime() === convertDate(dayObj.open).getTime() && $scope.barHours[i].close.getTime() === convertDate(dayObj.close).getTime())
-            			{
-            				flag = true;
-            				$scope.barHours[i][day] = true;
-            			}
-            		}
-                    if (flag === false) $scope.barHours.push({[day]: true, open: convertDate(dayObj.open), close: convertDate(dayObj.close)});
-                    if (dayObj.noHH !== true)
-                    {
-                        for (i = 0; i < dayObj.happyHour.length; i++)
-                        {
-                        	flag = false;
-                        	for (j=0; j<$scope.hhHours.length; j++)
-							{
-								if ($scope.hhHours[j].start.getTime() === convertDate(dayObj.happyHour[i].start).getTime() && $scope.hhHours[j].end.getTime() === convertDate(dayObj.happyHour[i].end).getTime())
-								{
-									flag = true;
-									$scope.hhHours[j][day] = true;
-								}
-							}
-                            if (flag === false) $scope.hhHours.push({[day]: true, start: convertDate(dayObj.happyHour[i].start), end: convertDate(dayObj.happyHour[i].end)});
-                        }
+            	if (dayObj.isClosed === false) {
+                    var operatingHoursKey = hoursToString(dayObj.open, dayObj.close);
+                    var happyHoursKeys = _.map(dayObj.happyHour, function(hh) {return hoursToString(hh.start, hh.end);});
+                    if (hoursOp[operatingHoursKey]) {
+                        hoursOp[operatingHoursKey].push(day);
+                    } else {
+                        hoursOp[operatingHoursKey] = [day];
                     }
+                    _.forEach(happyHoursKeys, function(hhKey) {
+                        if (hoursHh[hhKey]) {
+                            hoursHh[hhKey].push(day);
+                        } else {
+                            hoursHh[hhKey] = [day];
+                        }
+                    });
                 }
             });
-			if ($scope.barHours.length === 1) {
-				$scope.hideminusbar = true;
-			}
-			else
-			{
-				$scope.hideminusbar = false;
-			}
-			if ($scope.hhHours.length === 1) {
-				$scope.hideminushh = true;
-			}
-			else
-			{
-				$scope.hideminushh = false;
-			}
-			var temp = '';
-			for (i = 0; i < $scope.bar.atmosphere.length; i++) {
-				temp = temp.concat($scope.bar.atmosphere[i] + ', ');
-			}
-			temp = temp.substring(0, temp.length - 2);
-			$scope.bar.atmosphere = temp;
-			temp = '';
-			for (i = 0; i < $scope.bar.type.length; i++) {
-				temp = temp.concat($scope.bar.type[i] + ', ');
-			}
-			temp = temp.substring(0, temp.length - 2);
-			$scope.bar.type = temp;
+            //convert groupings of hours to format used in view
+            $scope.barHours = [];
+            $scope.hhHours = [];
+            _.forEach(hoursOp, function(days, hours) {
+                var hourObj = hoursFromString(hours);
+                var barHourObj = {open : convertDate(hourObj.start), close : convertDate(hourObj.end)};
+                _.forEach(days, function(day) {
+                    barHourObj[day] = true;
+                });
+                $scope.barHours.push(barHourObj);
+            });
+            _.forEach(hoursHh, function(days, hours) {
+                var hourObj = hoursFromString(hours);
+                var happyHourObj = {start : convertDate(hourObj.start), end : convertDate(hourObj.end)};
+                _.forEach(days, function(day) {
+                    happyHourObj[day] = true;
+                });
+                $scope.hhHours.push(happyHourObj);
+            });
+            $scope.hideminusbar = $scope.barHours.length === 1;
+            $scope.hdeminushh = $scope.hhHours.length === 1;
+            $scope.bar.atmosphere = $scope.bar.atmosphere.join(', ');
+            $scope.bar.type = $scope.bar.type.join(', ');
 		};
     }
 ]);
