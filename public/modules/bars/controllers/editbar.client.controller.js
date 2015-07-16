@@ -294,7 +294,7 @@ angular.module('bars').controller('EditBarController', ['$scope', '$stateParams'
                 $scope.hhHours.push(happyHourObj);
             });
             $scope.hideminusbar = $scope.barHours.length === 1;
-            $scope.hdeminushh = $scope.hhHours.length === 1;
+            $scope.hideminushh = $scope.hhHours.length === 1;
             $scope.bar.atmosphere = $scope.bar.atmosphere.join(', ');
             $scope.bar.type = $scope.bar.type.join(', ');
 		};
