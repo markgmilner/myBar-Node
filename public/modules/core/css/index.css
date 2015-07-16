@@ -82,6 +82,15 @@
 	list-style-type: none;
 }
 
+.forum-list {
+	border-top: 2px solid #dddddd
+}
+
+.forum-list-item {
+	border-bottom: 1px solid #dddddd;
+	list-style-type: none;
+}
+
 .angular-google-map-container { 
 	height: 400px; 
 }
