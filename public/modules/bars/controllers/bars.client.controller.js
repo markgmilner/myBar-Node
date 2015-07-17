@@ -1,9 +1,8 @@
 'use strict';
 
-angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'uiGmapGoogleMapApi',
-	function($scope, $stateParams, $location, Authentication, Bars, uiGmapGoogleMapApi) {
-		$scope.authentication = Authentication;
-		
+angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '$location', 'Bars', 'uiGmapGoogleMapApi',
+	function($scope, $stateParams, $location, Bars, uiGmapGoogleMapApi) {
+
 		$scope.create = function(barObj) {
 			var bar = new Bars(barObj);
 			bar.$save(function(response) {

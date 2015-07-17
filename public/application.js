@@ -8,7 +8,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	function($locationProvider) {
 		$locationProvider.hashPrefix('!');
 	}
-]).constant('_', window._);
+]);
+
+angular.module(ApplicationConfiguration.applicationModuleName).constant('_', window._);
+
+angular.module(ApplicationConfiguration.applicationModuleName).constant('USER_ROLES', { admin : 'ADMIN', user : 'USER' });
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function() {

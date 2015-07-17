@@ -10,7 +10,10 @@ angular.module('bars').config(['$stateProvider',
 		}).
 		state('createBar', {
 			url: '/bars/create',
-			templateUrl: 'modules/bars/views/create-bar.client.view.html'
+			templateUrl: 'modules/bars/views/create-bar.client.view.html',
+            data: {
+                authorizedRoles: ['admin']
+            }
 		}).
 		state('viewBar', {
 			url: '/bars/:barId',
@@ -18,7 +21,10 @@ angular.module('bars').config(['$stateProvider',
 		}).
 		state('editBar', {
 			url: '/bars/:barId/edit',
-			templateUrl: 'modules/bars/views/edit-bar.client.view.html'
+			templateUrl: 'modules/bars/views/edit-bar.client.view.html',
+            data: {
+                authorizedRoles: ['admin']
+            }
 		});
 	}
 ]);

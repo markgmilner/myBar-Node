@@ -22,10 +22,16 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 		$scope.signin = function() {
 			$http.post('/auth/signin', $scope.credentials).success(function(response) {
 				// If successful we assign the response to the global user model
-				$scope.authentication._data.user = response;
+				$scope.authentication.user = response;
 
-				// And redirect to the index page
-				$location.path('/');
+				// And redirect to the index page or redirect if specified
+                if (Authentication.redirect) {
+                    var redirect = angular.copy(Authentication.redirect);
+                    Authentication.redirect = null;
+                    $location.path(redirect);
+                } else {
+                    $location.path('/');
+                }
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

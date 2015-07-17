@@ -1,9 +1,8 @@
 'use strict';
 
-angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Bars', 'uiGmapGoogleMapApi', 'Reviews',
-	function($scope, $stateParams, $location, Authentication, Bars, uiGmapGoogleMapApi, Reviews) {
+angular.module('bars').controller('ViewBarsController', ['$scope', '$stateParams', '$location', 'Bars', 'uiGmapGoogleMapApi', 'Reviews',
+	function($scope, $stateParams, $location, Bars, uiGmapGoogleMapApi, Reviews) {
         $scope.testsys = true;
-		$scope.authentication = Authentication;
 		$scope.max = 5;
         $scope.rating = 3;
         $scope.noReviews = false;
