@@ -1,61 +1,70 @@
 <section data-ng-controller="BarsController" data-ng-init="find()">
-	<div data-ng-repeat="bar in bars">
-		<div class="row">
-			<div class="col-md-1"></div>
-			<div class="col-md-5">
-				<div class="col-md-2 barpic">
-					<a href="#!/bars/{{bar._id}}">
-						<!--<img alt="{{bar.name}}" height="90" ng-src="/uploads/{{bar._id}}/{{bar.thumb}}" width="90">-->
-						<img alt="{{bar.name}}" height="90" width="90" />
-					</a>
-				</div>
-				<div class="col-md-8">
-					<a class="h3" href="#!/bars/{{bar._id}}" >{{bar.name}}</a>
-					<div>
-						<div>
-							<!-- <rating ng-model="bar.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating> -->
+	<div class="row">
+		<div class="col-md-8">
+			<div data-ng-repeat="bar in bars">
+				<div class="row">
+					<div class="col-md-7">
+						<div class="col-md-2 barpic">
+							<a href="#!/bars/{{bar._id}}">
+								<!--<img alt="{{bar.name}}" height="90" ng-src="/uploads/{{bar._id}}/{{bar.thumb}}" width="90">-->
+								<img alt="{{bar.name}}" height="90" width="90" />
+							</a>
 						</div>
-						<span class="">
-							{{bar.reviewcount}}
-						</span>
-					</div>
-					<div class="">
+						<div class="col-md-8">
+							<a class="h3" href="#!/bars/{{bar._id}}" >{{bar.name}}</a>
+							<div>
+								<div>
+									<rating ng-model="bar.rating" max="max" readonly="true" state-on="'beerfull'" state-off="'beerempty'"></rating>
+								</div>
+								<span class="">
+									{{bar.reviewcount}}
+								</span>
+							</div>
+							<div class="">
 
-						<span class="">{{bar.price}}</span>
-						<span ng-repeat="ty in bar.type">
-							<a href="" class="titlecaps">{{ty}}</a>    
-						</span>
-					</div>
+								<span class="">{{bar.price}}</span>
+								<span ng-repeat="ty in bar.type">
+									<a href="" class="titlecaps">{{ty}}</a>    
+								</span>
+							</div>
 
+						</div>
+					</div>
+					<div class="col-md-3">
+						<address class="titlecaps">
+							<strong class="titlecaps">{{bar.address.neighborhood}}</strong> <br>
+							<br>
+							{{bar.address.street}} <br>
+							{{bar.address.city}}, {{bar.address.state}} {{bar.address.zip}} <br>
+							{{bar.phone}}
+						</address>
+
+
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-danger" ng-click="remove(bar)" >Delete</button>
+						<button class="btn btn-warning" ng-click="edit(bar)" >Edit</button>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-2">
-				<address class="titlecaps">
-					<strong class="titlecaps">{{bar.neighborhood}}</strong> <br>
-					<br>
-					{{bar.street}} <br>
-					{{bar.city}}, {{bar.state}} {{bar.zip}} <br>
-					{{bar.phonenum}}
-				</address>
-
-
-			</div>
-			<div class="col-md-1" ng-show="admin>0">
-				<button class="btn btn-danger" ng-click="removeBar(bar.id)" >Delete</button>
-				<button class="btn btn-warning" ng-click="editBar(bar.name)" >Edit</button>
+				<div class="row">
+					<div class="col-md-8" ng-switch="day">
+						<p ng-switch-when="0">Open Today: {{bar.sunday.open | time}} - {{bar.sunday.close | time}} | Happy Hour: {{bar.sunday.happyHour[0].start | time}} - {{bar.sunday.happyHour[0].end | time}}</p>
+						<p ng-switch-when="1">Open Today: {{bar.monday.open | time}} - {{bar.monday.close | time}} | Happy Hour: {{bar.monday.happyHour[0].start | time}} - {{bar.monday.happyHour[0].end | time}}</p>
+						<p ng-switch-when="2">Open Today: {{bar.tuesday.open | time}} - {{bar.tuesday.close | time}} | Happy Hour: {{bar.tuesday.happyHour[0].start | time}} - {{bar.tuesday.happyHour[0].end | time}}</p>
+						<p ng-switch-when="3">Open Today: {{bar.wednesday.open | time}} - {{bar.wednesday.close | time}} | Happy Hour: {{bar.wednesday.happyHour[0].start | time}} - {{bar.wednesday.happyHour[0].end | time}}</p>
+						<p ng-switch-when="4">Open Today: {{bar.thursday.open | time}} - {{bar.thursday.close | time}} | Happy Hour: {{bar.thursday.happyHour[0].start | time}} - {{bar.thursday.happyHour[0].end | time}}</p>
+						<p ng-switch-when="5">Open Today: {{bar.friday.open | time}} - {{bar.friday.close | time}} | Happy Hour: {{bar.friday.happyHour[0].start | time}} - {{bar.friday.happyHour[0].end | time}}</p>
+						<p ng-switch-when="6">Open Today: {{bar.saturday.open | time}} - {{bar.saturday.close | time}} | Happy Hour: {{bar.saturday.happyHour[0].start | time}} - {{bar.saturday.happyHour[0].end | time}}</p>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-5" ng-switch="day">
-				<p ng-switch-when="0">Open Today: {{bar.sunday.open | time}} - {{bar.sunday.close | time}} | Happy Hour: {{bar.sunday.happyHour[0].start | time}} - {{bar.sunday.happyHour[0].end | time}}</p>
-				<p ng-switch-when="1">Open Today: {{bar.monday.open | time}} - {{bar.monday.close | time}} | Happy Hour: {{bar.monday.happyHour[0].start | time}} - {{bar.monday.happyHour[0].end | time}}</p>
-				<p ng-switch-when="2">Open Today: {{bar.tuesday.open | time}} - {{bar.tuesday.close | time}} | Happy Hour: {{bar.tuesday.happyHour[0].start | time}} - {{bar.tuesday.happyHour[0].end | time}}</p>
-				<p ng-switch-when="3">Open Today: {{bar.wednesday.open | time}} - {{bar.wednesday.close | time}} | Happy Hour: {{bar.wednesday.happyHour[0].start | time}} - {{bar.wednesday.happyHour[0].end | time}}</p>
-				<p ng-switch-when="4">Open Today: {{bar.thursday.open | time}} - {{bar.thursday.close | time}} | Happy Hour: {{bar.thursday.happyHour[0].start | time}} - {{bar.thursday.happyHour[0].end | time}}</p>
-				<p ng-switch-when="5">Open Today: {{bar.friday.open | time}} - {{bar.friday.close | time}} | Happy Hour: {{bar.friday.happyHour[0].start | time}} - {{bar.friday.happyHour[0].end | time}}</p>
-				<p ng-switch-when="6">Open Today: {{bar.saturday.open | time}} - {{bar.saturday.close | time}} | Happy Hour: {{bar.saturday.happyHour[0].start | time}} - {{bar.saturday.happyHour[0].end | time}}</p>
-			</div>
+		<div class="col-md-4">
+			<ui-gmap-google-map center='map.center' zoom='map.zoom'>
+				<span data-ng-repeat="marker in markers">
+					<ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id"></ui-gmap-marker>
+				</span>
+			</ui-gmap-google-map>
 		</div>
 	</div>
 	<div class="alert alert-warning text-center" data-ng-if="bars.$resolved && !bars.length">

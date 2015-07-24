@@ -1,7 +1,12 @@
 'use strict';
 
-angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '$location', 'Bars', 'uiGmapGoogleMapApi',
-	function($scope, $stateParams, $location, Bars, uiGmapGoogleMapApi) {
+angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '$location', 'Bars', 'uiGmapGoogleMapApi', '_', 
+	function($scope, $stateParams, $location, Bars, uiGmapGoogleMapApi, _) {
+	
+		$scope.map = { center: { latitude: 34.0451919, longitude: -118.2611465 }, zoom: 15 };
+		$scope.markers = [];
+        uiGmapGoogleMapApi.then(function(maps) {}); 
+        $scope.max = 5;
 
 		$scope.create = function(barObj) {
 			var bar = new Bars(barObj);
@@ -38,8 +43,20 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 		};
 
 		$scope.find = function() {
-			$scope.bars = Bars.query();
+			$scope.bars = Bars.query(function(){
+				var count = 0;
+				var marker;
+				_.forEach($scope.bars, function(bar){
+					marker = { id:count, coords: {latitude: bar.address.latCoord, longitude: bar.address.longCoord }, options: {draggable: false}, events: {} };
+					$scope.markers.push(marker);
+					count = count + 1;
+				});
+			});
 		};
+		
+		$scope.edit = function(bar) {
+			$location.path('bars/' + bar._id + '/edit');
+		}
 
 	}
 ]);
