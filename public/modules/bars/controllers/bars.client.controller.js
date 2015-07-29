@@ -56,7 +56,7 @@ angular.module('bars').controller('BarsController', ['$scope', '$stateParams', '
 		
 		$scope.edit = function(bar) {
 			$location.path('bars/' + bar._id + '/edit');
-		}
+		};
 
 	}
 ]);

@@ -14,17 +14,29 @@
 		</form>
     </div>
     <br />
+		<script type="text/ng-template"  id="tree_item_renderer.html">
+		  <ul>
+        <li ng-repeat="comment in post.posts" ng-include="'tree_item_renderer.html'">
+					<div class="row">
+						<span class="col-md-2">{{comment.timestamp | date:'short'}}</span>
+						<p class="col-md-2">{{comment.text}}</p>
+						<button ng-click="add(comment)" >Add Comment</button>
+					</div>
+					<br />
+				</li>
+			</ul>
+		</script>
+
     <ul class="forum-list">
-    	<li class="review-list-item" data-ng-repeat="post in forum.posts">
+    	<li class="review-list-item" data-ng-repeat="post in forum.posts" ng-include="'tree_item_renderer.html'">
     		<div class="row">
-				<span class="col-md-2">{{post.timestamp | date:'short'}}</span>
-				<p class="col-md-2">{{post.text}}</p>
-			</div>
-			<br />
-		</li>
+					<span class="col-md-2">{{post.timestamp | date:'short'}}</span>
+					<p class="col-md-2">{{post.text}}</p>
+				</div>
+				<br />
+			</li>
     </ul>
     <br />
     <br />
     <br />
 </section>
-    

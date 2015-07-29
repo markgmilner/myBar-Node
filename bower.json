@@ -11,6 +11,7 @@
 		"angular-bootstrap": "*",
 		"angular-ui-utils": "*",
 		"angular-ui-router": "*",
-        "lodash": "3.10"
+        "lodash": "3.10",
+		"angular-google-maps": "*"
 	}
 }

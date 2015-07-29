@@ -22,6 +22,7 @@ var PostDef = {
         type: ObjectId,
         ref: 'User'
     },
+	posts: [PostDef],
 };
 
 /**
